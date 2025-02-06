@@ -1,0 +1,33 @@
+form{
+    margin-top: 5%;
+    width: 70%;
+    line-height: 30px;
+}
+.Data{
+    display: block;
+}
+.Data div{
+    display: none;
+}
+.dates{
+    text-align: center;
+  margin: 15px 30px 0 15px;
+}
+.flexDiv{
+    display: flex;
+    align-items: center;
+      text-align: right;
+    margin: 10px 0;
+}
+.new form div label{
+    width: 40%;
+    margin-right: 10px;
+}
+.new form div input{
+    border: 1.5px solid black;
+}
+.new form div textarea{
+    border: 1.5px solid black;
+    height: 200px;
+    width: 400px;
+}

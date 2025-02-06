@@ -13,7 +13,7 @@ const navigate = useNavigate();
   return (
     <div className="main">
       <div className="create">
-        <button className="createBtn">Create Project</button>
+        <button onClick={() => navigate('/projects/new')} className="createBtn">Create Project</button>
       </div>
       <div className="projects">
         <table>

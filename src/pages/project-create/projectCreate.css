@@ -1,33 +1,25 @@
-form{
-    margin-top: 5%;
-    width: 70%;
+.formCreate{
+    margin-top: 3rem;
     line-height: 30px;
-}
-.Data{
-    display: block;
-}
-.Data div{
-    display: none;
-}
-.dates{
-    text-align: center;
-  margin: 15px 30px 0 15px;
-}
-.flexDiv{
     display: flex;
-    align-items: center;
-      text-align: right;
-    margin: 10px 0;
+    flex-direction: column;
+    gap: 10px;
 }
-.new form div label{
-    width: 40%;
-    margin-right: 10px;
+.formElement{
+    display: flex;
 }
-.new form div input{
-    border: 1.5px solid black;
+.formLabel{
+    text-align: right;
+    width: 300px;
+    padding-right: 20px;
 }
-.new form div textarea{
-    border: 1.5px solid black;
-    height: 200px;
-    width: 400px;
+.formBtn{
+    margin-left: 320px;
+    margin-top: 30px;
+    letter-spacing: 1px;
+    color: white;
+    background-color: blue;
+    padding: 5px 10px;
+    width: 70px;
+    border: none;
 }

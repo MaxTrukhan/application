@@ -12,10 +12,11 @@ import { Navigate, redirect, useNavigate } from "react-router-dom";
 function Main() {
   const navigate = useNavigate();
   console.log(projects[0])
-  
+
   const saveProject = (id) => {
     const chosenProject = projects.find(project => project.id == id)
     const indexProject = id - 1
+    
     projects.splice(indexProject, 1, {
       ...chosenProject,
       saved: !chosenProject.saved,

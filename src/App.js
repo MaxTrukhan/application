@@ -5,7 +5,7 @@ import ProjectCreate from "./pages/project-create/projectCreate";
 import ProjectDetail from "./pages/project-detail/projectDetail";
 import ProjectEdit from "./pages/project-edit/projectEdit";
 import Aside from "./Project/aside";
-import { favoriteProject } from "./Project/data/FavoriteProject";
+import { favoriteProject } from "./components/Form/data/FavoriteProject";
 import {
   BrowserRouter as Router,
   Route,

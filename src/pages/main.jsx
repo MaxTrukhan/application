@@ -6,23 +6,26 @@ import Aside from "../Project/aside";
 // import { FaRegHeart } from "react-icons/fa6";
 import { AiFillStar } from "react-icons/ai";
 import { CiStar } from "react-icons/ci";
-import { projects } from "../Project/data/Projects";
+import { projects } from "../components/Form/data/Projects";
+import { favoriteProject } from "../components/Form/data/FavoriteProject";
 import { Navigate, redirect, useNavigate } from "react-router-dom";
 
 function Main() {
   const navigate = useNavigate();
-  console.log(projects[0])
 
-  const saveProject = (id) => {
-    const chosenProject = projects.find(project => project.id == id)
-    const indexProject = id - 1
+  const saveProject = (id, index) => {
+    const savedProject = projects.find((project) => project.id === id);
+    // console.log(savedProject["saved"] = true);
+    // projects[index] = savedProject["saved"] = true;
+    favoriteProject.map((favorite) =>
+      favorite.id !== id ? favoriteProject.push(savedProject) : ""
+    );
+  };
+
+  const fetchProjects = () => {
     
-    projects.splice(indexProject, 1, {
-      ...chosenProject,
-      saved: !chosenProject.saved,
-    });
   }
-
+    
   return (
     <div className="main">
       <div className="create">
@@ -40,11 +43,11 @@ function Main() {
               <th>End Date</th>
               <th>Project Manager</th>
               <th />
+              <th />
             </tr>
           </thead>
           <tbody>
-            {projects.map((project) => {
-              console.log(project);
+            {projects.map((project, index) => {
               return (
                 <tr key={project.id}>
                   <td>{project.id}</td>
@@ -52,22 +55,17 @@ function Main() {
                   <td>{project.startDate}</td>
                   <td>{project.endDate}</td>
                   <td>{project.manager}</td>
-                  <td>{`${project.saved}`}</td>
                   <td>
                     <button
-                      onClick={() => saveProject(project.id)}
-                      className="save__project-btn"
-                    >
-                      {project.saved ? (
-                        <AiFillStar className="save__project" />
-                      ) : (
-                        <CiStar className="save__project" />
-                      )}
-                    </button>
+                      onClick={() => saveProject(project.id, index)}
+                      className="save__project-btn star"
+                    />
                   </td>
                   <td>
                     <button
-                      onClick={() => navigate(`/projects/${project.id}/edit`)}
+                      onClick={() => {
+                        navigate(`/projects/${project.id}/edit`);
+                      }}
                       className="Edit"
                     >
                       Edit
@@ -81,7 +79,6 @@ function Main() {
       </div>
     </div>
   );
-  
 }
 
 export default Main;

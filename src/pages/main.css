@@ -25,7 +25,9 @@ table{
     width: 100%;
     text-align: center;
     border-collapse: "collapse";
-
+}
+th{
+    background: #c5c3c3;
 }
 
 
@@ -42,11 +44,28 @@ tbody{
     cursor: pointer;
 }
 .save__project-btn{
-    margin-top: 10px;
+    margin-top: 15px;
     text-align: center;
-    border: none;
-    background-color: rgba(240, 248, 255, 0);
+    border: rgba(196, 208, 21, 0.861);
 }
+/* HTML: <div class="star"></div> */
+.star {
+  width: 30px;  
+  aspect-ratio: 1;
+  clip-path: polygon(50% 0,
+    calc(50%*(1 + sin(.4turn))) calc(50%*(1 - cos(.4turn))),
+    calc(50%*(1 - sin(.2turn))) calc(50%*(1 - cos(.2turn))),
+    calc(50%*(1 + sin(.2turn))) calc(50%*(1 - cos(.2turn))),
+    calc(50%*(1 - sin(.1turn))) calc(50%*(1 - cos(.4turn))) 
+   ); 
+  /* or more simple
+  clip-path: polygon(50% 0,79% 90%,2% 35%,98% 35%,21% 90%); 
+   */
+}
+.star:focus{
+    background-color: rgb(136, 143, 0);
+}
+
 .save__project{
     color: brown;
     font-size: 30px;

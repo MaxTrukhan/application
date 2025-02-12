@@ -1,5 +1,5 @@
 import React from 'react'
-import { favoriteProject } from './data/FavoriteProject';
+import { favoriteProject } from "../components/Form/data/FavoriteProject";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 

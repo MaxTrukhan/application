@@ -1,7 +1,7 @@
 import React from "react";
 import './projectDetail'
 import { useNavigate, useParams } from "react-router-dom";
-import { projects } from "../../components/Form/data/Projects";
+import { projects } from "../../mock-api/data/Projects";
 import "./projectDetail.css";
 
 const ProjectDetail = () => {

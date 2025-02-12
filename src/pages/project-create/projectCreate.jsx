@@ -2,7 +2,7 @@ import React from 'react'
 import './projectCreate.css'
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from "react-datepicker";
-import { projects } from "../../components/Form/data/Projects";
+import { projects } from "../../mock-api/data/Projects";
 import { useNavigate } from "react-router-dom";
 // import {z} from 'zod'
 // import { useForm, Controller  } from "react-hook-form"
@@ -24,7 +24,7 @@ import { useState } from "react";
 // } = useForm({
 // resolver: zodResolver(schema),
 // })
-const ProjectCreate = () => {
+const ProjectCreate = ({proejcts, setProjects}) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -53,7 +53,7 @@ const ProjectCreate = () => {
 
   const formSubmit = (e) => {
     e.preventDefault();
-    projects.push(formData);
+    setProjects(...proejcts, formData);
   };
   return (
     <div className="new">

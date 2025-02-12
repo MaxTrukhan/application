@@ -5,7 +5,7 @@ import ProjectCreate from "./pages/project-create/projectCreate";
 import ProjectDetail from "./pages/project-detail/projectDetail";
 import ProjectEdit from "./pages/project-edit/projectEdit";
 import Aside from "./Project/aside";
-import { favoriteProject } from "./components/Form/data/FavoriteProject";
+import { favoriteProject } from "./mock-api/data/FavoriteProject";
 import {
   BrowserRouter as Router,
   Route,
@@ -13,17 +13,33 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const [descriptionId, setDescriptionId] = useState(0)
+  const [favoriteProjects, setFavoriteProjects] = useState([])
+  const [proejcts, setProjects] = useState([])
 
   return (
     <div className="App">
       {/* <Main /> */}
 
       <Router>
-        {favoriteProject.length > 0 && <Aside />}
+        {favoriteProjects.length > 0 && (
+          <Aside favoriteProjects={favoriteProjects} />
+        )}
         <Routes>
-          <Route element={<Main />} path="/projects" />
-          <Route element={<ProjectCreate />} path="/projects/new" />
+          <Route
+            element={
+              <Main
+                favoriteProjects={favoriteProjects}
+                setFavoriteProjects={setFavoriteProjects}
+              />
+            }
+            path="/projects"
+          />
+          <Route
+            element={
+              <ProjectCreate setProjects={setProjects} proejcts={proejcts} />
+            }
+            path="/projects/new"
+          />
           <Route element={<ProjectDetail />} path="/projects/:projectId" />
           <Route element={<ProjectEdit />} path="/projects/:projectId/edit" />
         </Routes>

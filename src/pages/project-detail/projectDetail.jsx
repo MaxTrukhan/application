@@ -1,7 +1,7 @@
 import React from "react";
 import './projectDetail'
 import { useNavigate, useParams } from "react-router-dom";
-import { projects } from "../../mock-api/data/Projects";
+
 import "./projectDetail.css";
 
 const ProjectDetail = () => {
@@ -10,7 +10,7 @@ const ProjectDetail = () => {
   const params = useParams();
   const { projectId } = params;
 
-  const chosenProject = projects.find((project) => project.id == projectId);
+  const chosenProject = [].find((project) => project.id == projectId);
 
   return (
     <div className="detail">

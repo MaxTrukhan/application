@@ -1,1 +1,67 @@
-projectsDetail's title is not in a center of value
+IP addres to mangodb: 67.163.51.59
+password: maksymdbserver
+
+
+const express = require("express");
+const mongoose = require("mongoose");
+const app = express();
+const port = 3001;
+
+// Middleware to parse JSON request bodies
+app.use(express.json());
+
+// MongoDB Atlas connection string
+const mongoURI =
+  "mongodb+srv://maxcodejs:maksymdbserver@cluster0.5da3r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB Atlas connection string
+
+// Connect to MongoDB using Mongoose
+mongoose
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB Atlas!"))
+  .catch((err) => console.log("Error connecting to MongoDB:", err));
+
+// Define a Schema and Model for the "users" collection
+const userSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  location: String,
+});
+
+const User = mongoose.model("User", userSchema);
+
+// POST endpoint to store data
+app.post("/store", async (req, res) => {
+  const { name, age, location } = req.body;
+
+  // Validate if required fields are present
+  if (!name || !age || !location) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    // Create a new user document and save to the database
+    const newUser = new User({ name, age, location });
+    await newUser.save();
+    res
+      .status(201)
+      .json({ message: "Data stored successfully", data: newUser });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to store data" });
+  }
+});
+
+// GET endpoint to fetch all users
+app.get("/appoitment", async (req, res) => {
+  try {
+    // Fetch all users from the "users" collection
+    const users = await User.find();
+    res.status(200).json({ data: users });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve data" });
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});

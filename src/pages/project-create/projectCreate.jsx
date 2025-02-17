@@ -1,30 +1,14 @@
-import React from 'react'
-import './projectCreate.css'
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useEffect } from "react";
+import "./projectCreate.css";
+import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-import { projects } from "../../mock-api/data/Projects";
 import { useNavigate } from "react-router-dom";
 // import {z} from 'zod'
 // import { useForm, Controller  } from "react-hook-form"
 // import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from "react";
-// const schema = z.object({
-//     id: z.string(),
-//     name: z.string(),
-//     description: z.string(),
-//     startDate: z.coerce.date(),
-//     endDate: z.coerce.date(),
-//     projectManager: z.string()
-// })
 
-// const {
-//     register,
-//     handleSubmit,
-//     control
-// } = useForm({
-// resolver: zodResolver(schema),
-// })
-const ProjectCreate = ({proejcts, setProjects}) => {
+const ProjectCreate = ({ setProjects }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -51,10 +35,31 @@ const ProjectCreate = ({proejcts, setProjects}) => {
     });
   };
 
-  const formSubmit = (e) => {
-    e.preventDefault();
-    setProjects(...proejcts, formData);
-  };
+ const formSubmit = (e) => {
+   e.preventDefault();
+
+   // Correctly spread the previous projects and add the new formData
+   setProjects((prevProjects) => [...prevProjects, formData]);
+
+   // Sending the form data in the POST request
+   fetch("http://localhost:8000/message", {
+     method: "POST",
+     headers: {
+       "Content-Type": "application/json",
+     },
+     body: JSON.stringify({ message: formData }), // Correctly stringify the formData
+   })
+     .then((res) => res.json())
+     .then((data) => {
+       console.log(data);
+       // Update projects with the new response data, assuming it's in 'data.message'
+       setProjects((prevProjects) => [...prevProjects, data.message]);
+     })
+     .catch((error) => {
+       console.error("Error posting data:", error);
+     });
+ };
+
   return (
     <div className="new">
       <form className="formCreate" onSubmit={formSubmit}>
@@ -122,4 +127,4 @@ const ProjectCreate = ({proejcts, setProjects}) => {
   );
 };
 
-export default ProjectCreate
+export default ProjectCreate;

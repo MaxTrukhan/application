@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Main from "./pages/main";
 import ProjectCreate from "./pages/project-create/projectCreate";
 import ProjectDetail from "./pages/project-detail/projectDetail";
 import ProjectEdit from "./pages/project-edit/projectEdit";
 import Aside from "./Project/aside";
-import { favoriteProject } from "./mock-api/data/FavoriteProject";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -14,12 +14,19 @@ import {
 
 function App() {
   const [favoriteProjects, setFavoriteProjects] = useState([])
-  const [proejcts, setProjects] = useState([])
+  // const [proejcts, setProjects] = useState([])
+
+
+  const [project, setProjects] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:8000/message")
+      .then((res) => res.json())
+      .then((data) => { setProjects(data); console.log(data);});
+  }, []);
 
   return (
     <div className="App">
       {/* <Main /> */}
-
       <Router>
         {favoriteProjects.length > 0 && (
           <Aside favoriteProjects={favoriteProjects} />
@@ -28,6 +35,7 @@ function App() {
           <Route
             element={
               <Main
+                project={project}
                 favoriteProjects={favoriteProjects}
                 setFavoriteProjects={setFavoriteProjects}
               />
@@ -36,7 +44,7 @@ function App() {
           />
           <Route
             element={
-              <ProjectCreate setProjects={setProjects} proejcts={proejcts} />
+              <ProjectCreate setProjects={setProjects} proejcts={project} />
             }
             path="/projects/new"
           />

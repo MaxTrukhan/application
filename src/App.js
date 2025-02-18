@@ -14,15 +14,10 @@ import {
 
 function App() {
   const [favoriteProjects, setFavoriteProjects] = useState([])
-  // const [proejcts, setProjects] = useState([])
 
 
-  const [project, setProjects] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:8000/message")
-      .then((res) => res.json())
-      .then((data) => { setProjects(data); console.log(data);});
-  }, []);
+
+  
 
   return (
     <div className="App">
@@ -35,7 +30,7 @@ function App() {
           <Route
             element={
               <Main
-                project={project}
+              
                 favoriteProjects={favoriteProjects}
                 setFavoriteProjects={setFavoriteProjects}
               />
@@ -44,7 +39,7 @@ function App() {
           />
           <Route
             element={
-              <ProjectCreate setProjects={setProjects} proejcts={project} />
+              <ProjectCreate />
             }
             path="/projects/new"
           />

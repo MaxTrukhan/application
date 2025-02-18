@@ -35,96 +35,74 @@ const ProjectCreate = ({ setProjects }) => {
     });
   };
 
- const formSubmit = (e) => {
-   e.preventDefault();
+  const formSubmit = (e) => {
+    e.preventDefault();
 
-   // Correctly spread the previous projects and add the new formData
-   setProjects((prevProjects) => [...prevProjects, formData]);
+    return (
+      <div className="new">
+        <form className="formCreate" onSubmit={formSubmit}>
+          <label className="formElement">
+            <span className="formLabel">Project ID</span>
+            <input
+              onChange={(event) => handleFormData(event)}
+              value={formData.id}
+              name="id"
+            />
+          </label>
 
-   // Sending the form data in the POST request
-   fetch("http://localhost:8000/message", {
-     method: "POST",
-     headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify({ message: formData }), // Correctly stringify the formData
-   })
-     .then((res) => res.json())
-     .then((data) => {
-       console.log(data);
-       // Update projects with the new response data, assuming it's in 'data.message'
-       setProjects((prevProjects) => [...prevProjects, data.message]);
-     })
-     .catch((error) => {
-       console.error("Error posting data:", error);
-     });
- };
+          <label className="formElement">
+            <span className="formLabel">Project Name</span>
+            <input
+              onChange={(event) => handleFormData(event)}
+              value={formData.name}
+              name="name"
+            />
+          </label>
 
-  return (
-    <div className="new">
-      <form className="formCreate" onSubmit={formSubmit}>
-        <label className="formElement">
-          <span className="formLabel">Project ID</span>
-          <input
-            onChange={(event) => handleFormData(event)}
-            value={formData.id}
-            name="id"
-          />
-        </label>
+          <label className="formElement">
+            <span className="formLabel">Description</span>
+            <textarea
+              onChange={(event) => handleFormData(event)}
+              name="description"
+              rows="10"
+              cols="50"
+            />
+          </label>
 
-        <label className="formElement">
-          <span className="formLabel">Project Name</span>
-          <input
-            onChange={(event) => handleFormData(event)}
-            value={formData.name}
-            name="name"
-          />
-        </label>
+          <label className="formElement">
+            <span className="formLabel">Start Date</span>
+            <DatePicker
+              onChange={(date) => handleData("startDate", date)}
+              selected={formData.startDate}
+            />
+          </label>
 
-        <label className="formElement">
-          <span className="formLabel">Description</span>
-          <textarea
-            onChange={(event) => handleFormData(event)}
-            name="description"
-            rows="10"
-            cols="50"
-          />
-        </label>
+          <label className="formElement">
+            <span className="formLabel">End Date</span>
+            <DatePicker
+              onChange={(date) => handleData("endDate", date)}
+              selected={formData.endDate}
+            />
+          </label>
 
-        <label className="formElement">
-          <span className="formLabel">Start Date</span>
-          <DatePicker
-            onChange={(date) => handleData("startDate", date)}
-            selected={formData.startDate}
-          />
-        </label>
+          <label className="formElement">
+            <span className="formLabel">Project Manager</span>
+            <input
+              onChange={(event) => handleFormData(event)}
+              name="projectManager"
+            />
+          </label>
 
-        <label className="formElement">
-          <span className="formLabel">End Date</span>
-          <DatePicker
-            onChange={(date) => handleData("endDate", date)}
-            selected={formData.endDate}
-          />
-        </label>
-
-        <label className="formElement">
-          <span className="formLabel">Project Manager</span>
-          <input
-            onChange={(event) => handleFormData(event)}
-            name="projectManager"
-          />
-        </label>
-
-        <button
-          type="Submit"
-          className="formBtn"
-          onClick={() => navigate("/projects")}
-        >
-          Create
-        </button>
-      </form>
-    </div>
-  );
-};
-
+          <button
+            type="Submit"
+            className="formBtn"
+            onClick={() => navigate("/projects")}
+          >
+            Create
+          </button>
+        </form>
+      </div>
+    );
+  };
+}
 export default ProjectCreate;

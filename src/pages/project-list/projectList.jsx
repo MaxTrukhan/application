@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../main.css";
 import { useNavigate } from "react-router-dom";
 
-const ProjectList = ({ favoriteProjects, setFavoriteProjects, project }) => {
+const ProjectList = ({ favoriteProjects, setFavoriteProjects }) => {
   const navigate = useNavigate();
-  console.log(project)
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8003/projects")
+      .then((res) => res.json())
+      .then((data) => { setProjects(data.projects); console.log(data.favorite);});
+  }, []);
+
   const markSaveProject = (id) => {
-    const savedProject = [].find((project) => project.id === id); // defind which porject we clicked on
+    const savedProject = projects.find((project) => project.id === id); // defind which porject we clicked on
 
     favoriteProjects.find((favorite) => favorite.id === id)
       ? setFavoriteProjects(
@@ -14,15 +21,10 @@ const ProjectList = ({ favoriteProjects, setFavoriteProjects, project }) => {
         )
       : setFavoriteProjects([...favoriteProjects, savedProject]);
   };
-
+  console.log(projects)
   return (
-    <div className="main">
-      <div className="create">
-        <button onClick={() => navigate("/projects/new")} className="createBtn">
-          Create Project
-        </button>
-      </div>
-      {project.length > 0 && (
+    <>
+
         <div className="projects">
           <table>
             <thead>
@@ -37,7 +39,7 @@ const ProjectList = ({ favoriteProjects, setFavoriteProjects, project }) => {
               </tr>
             </thead>
             <tbody>
-              {[].map((project, index) => {
+              {projects.map((project, index) => {
                 return (
                   <tr key={project.id}>
                     <td>{project.id}</td>
@@ -73,8 +75,7 @@ const ProjectList = ({ favoriteProjects, setFavoriteProjects, project }) => {
             </tbody>
           </table>
         </div>
-      )}
-    </div>
+    </>
   );
 };
 

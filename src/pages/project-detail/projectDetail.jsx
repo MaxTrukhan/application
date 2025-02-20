@@ -4,13 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import "./projectDetail.css";
 
-const ProjectDetail = () => {
+const ProjectDetail = ({projects}) => {
   const navigate = useNavigate();
 
   const params = useParams();
   const { projectId } = params;
 
-  const chosenProject = [].find((project) => project.id == projectId);
+  const chosenProject = projects.find((project) => project.id == projectId);
 
   return (
     <div className="detail">

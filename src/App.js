@@ -14,23 +14,23 @@ import {
 
 function App() {
   const [favoriteProjects, setFavoriteProjects] = useState([])
-
-
-
-  
+  const [projects, setProjects] = useState([]);
 
   return (
     <div className="App">
       {/* <Main /> */}
       <Router>
-        {favoriteProjects.length > 0 && (
-          <Aside favoriteProjects={favoriteProjects} />
-        )}
+        <Aside
+          favoriteProjects={favoriteProjects}
+          setFavoriteProjects={setFavoriteProjects}
+        />
+
         <Routes>
           <Route
             element={
               <Main
-              
+                projects={projects}
+                setProjects={setProjects}
                 favoriteProjects={favoriteProjects}
                 setFavoriteProjects={setFavoriteProjects}
               />
@@ -39,11 +39,16 @@ function App() {
           />
           <Route
             element={
-              <ProjectCreate />
+              <ProjectCreate projects={projects} setProjects={setProjects} />
             }
             path="/projects/new"
           />
-          <Route element={<ProjectDetail />} path="/projects/:projectId" />
+          <Route
+            element={
+              <ProjectDetail projects={projects} setProjects={setProjects} />
+            }
+            path="/projects/:projectId"
+          />
           <Route element={<ProjectEdit />} path="/projects/:projectId/edit" />
         </Routes>
       </Router>

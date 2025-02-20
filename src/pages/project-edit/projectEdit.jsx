@@ -42,7 +42,7 @@ const ProjectEdit = () => {
         </label>
 
         <button onClick={() => navigate('/projects')} type="Submit" className="formBtn">
-          Edit
+          Update
         </button>
       </form>
     </div>

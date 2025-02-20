@@ -65,3 +65,7 @@ app.get("/appoitment", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+
+When reload page at /projects/:projectsId it's crashing becouse props and params update
+with the page and Objects.entries() can't work with underfind | null

@@ -18,7 +18,25 @@
     letter-spacing: 1px;
     width: 500px;
 }
-.detail__Btn{
-    margin-left: 500px;
+.detail__btn-flex{
+    display: flex;
+    margin-left: 400px;
+}
+.detail__btn{
+    margin-left: 25px;
     width: 100px;
+}
+
+.no__result{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 250px;
+}
+.no__result > p {
+    font-size: 70px;
+    font-weight: bold;
+    color: rgba(201, 201, 201, 0.737);
+    letter-spacing: 1.5px;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.733);
 }

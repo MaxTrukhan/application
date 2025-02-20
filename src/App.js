@@ -45,7 +45,10 @@ function App() {
           />
           <Route
             element={
-              <ProjectDetail projects={projects} setProjects={setProjects} />
+              <ProjectDetail
+                projects={projects}
+                favoriteProjects={favoriteProjects}
+              />
             }
             path="/projects/:projectId"
           />

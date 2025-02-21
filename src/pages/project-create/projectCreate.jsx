@@ -8,11 +8,8 @@ import { useNavigate } from "react-router-dom";
 // import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from "react";
 
-
-
 const ProjectCreate = ({ setProjects, projects }) => {
   const navigate = useNavigate();
-
 
   const [formData, setFormData] = useState({
     id: "",
@@ -20,11 +17,8 @@ const ProjectCreate = ({ setProjects, projects }) => {
     description: "",
     startDate: null, // Initially no date selected
     endDate: null, // Initially no date selected
-    projectManager: "",
+    manager: "",
   });
-
-
-
 
   const handleFormData = (e) => {
     const { name, value } = e.target;
@@ -40,18 +34,27 @@ const ProjectCreate = ({ setProjects, projects }) => {
       [name]: date,
     });
   };
+  
+  const [error, setError] = useState("");
 
   const formSubmit = (e) => {
     e.preventDefault();
+
+    if (projects.find((project) => project.id == formData.id)) {
+      setError(`Next valid ID is ${projects.length}`);
+    } else {
       fetch("http://localhost:8003/projects", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json",
         },
-      }).then((res) => { setProjects([...projects, formData]) });
-    navigate('/projects')
-  }
+      }).then((res) => {
+        setProjects([...projects, formData]);
+      });
+      navigate("/projects");
+    }
+  };
   return (
     <div className="new">
       <form className="formCreate" onSubmit={formSubmit}>
@@ -61,7 +64,9 @@ const ProjectCreate = ({ setProjects, projects }) => {
             onChange={(event) => handleFormData(event)}
             value={formData.id}
             name="id"
+            required
           />
+          {error && <span style={{ marginLeft: "10px" }}>{error}</span>}
         </label>
 
         <label className="formElement">
@@ -70,6 +75,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
             onChange={(event) => handleFormData(event)}
             value={formData.name}
             name="name"
+            required
           />
         </label>
 
@@ -80,6 +86,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
             name="description"
             rows="10"
             cols="50"
+            required
           />
         </label>
 
@@ -88,6 +95,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
           <DatePicker
             onChange={(date) => handleData("startDate", date)}
             selected={formData.startDate}
+            required
           />
         </label>
 
@@ -103,14 +111,12 @@ const ProjectCreate = ({ setProjects, projects }) => {
           <span className="formLabel">Project Manager</span>
           <input
             onChange={(event) => handleFormData(event)}
-            name="projectManager"
+            name="manager"
+            required
           />
         </label>
 
-        <button
-          type="Submit"
-          className="formBtn"
-        >
+        <button type="Submit" className="formBtn">
           Create
         </button>
       </form>

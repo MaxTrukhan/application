@@ -44,6 +44,7 @@ const ProjectList = ({
           setFavoriteProjects((prevProjects) => [...prevProjects, savedProject])
         );
   };
+  console.log(projects)
   return (
     <>
       <div className="projects">

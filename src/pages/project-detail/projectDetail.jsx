@@ -18,7 +18,7 @@ const ProjectDetail = ({ projects, favoriteProjects, setFavoriteProjects }) => {
         <>
           {Object.entries(chosenProject).map(
             ([key, value]) =>
-              key !== "saved" && (
+             (
                 <>
                   <div key={key}>
                     <p className="detail__info">

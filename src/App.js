@@ -52,7 +52,12 @@ function App() {
             }
             path="/projects/:projectId"
           />
-          <Route element={<ProjectEdit />} path="/projects/:projectId/edit" />
+          <Route
+            element={
+              <ProjectEdit projects={projects} setProjects={setProjects} />
+            }
+            path="/projects/:projectId/edit"
+          />
         </Routes>
       </Router>
     </div>

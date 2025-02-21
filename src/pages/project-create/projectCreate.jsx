@@ -12,7 +12,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    id: "",
+    id: Number,
     name: "",
     description: "",
     startDate: null, // Initially no date selected
@@ -41,7 +41,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
     e.preventDefault();
 
     if (projects.find((project) => project.id == formData.id)) {
-      setError(`Next valid ID is ${projects.length}`);
+      setError(`Next valid ID is ${projects.length + 1}`);
     } else {
       fetch("http://localhost:8003/projects", {
         method: "POST",
@@ -64,7 +64,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
             onChange={(event) => handleFormData(event)}
             value={formData.id}
             name="id"
-            required
+            
           />
           {error && <span style={{ marginLeft: "10px" }}>{error}</span>}
         </label>
@@ -75,7 +75,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
             onChange={(event) => handleFormData(event)}
             value={formData.name}
             name="name"
-            required
+            
           />
         </label>
 
@@ -86,7 +86,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
             name="description"
             rows="10"
             cols="50"
-            required
+            
           />
         </label>
 
@@ -102,7 +102,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
               )
             }
             selected={formData.startDate}
-            required
+            
           />
         </label>
 
@@ -126,7 +126,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
           <input
             onChange={(event) => handleFormData(event)}
             name="manager"
-            required
+            
           />
         </label>
 

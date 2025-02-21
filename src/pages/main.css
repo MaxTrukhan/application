@@ -21,10 +21,12 @@
 }
 
 table{
+  
     line-height: 35px;
     width: 100%;
     text-align: center;
     border-collapse: "collapse";
+    margin-bottom: 30px;
 }
 th{
     background: #c5c3c3;

@@ -61,39 +61,41 @@ const ProjectList = ({
             </tr>
           </thead>
           <tbody>
-            {projects.map((project, index) => {
-              return (
-                <tr key={project.id}>
-                  <td>{project.id}</td>
-                  <td>{project.name}</td>
-                  <td>{project.startDate}</td>
-                  <td>{project.endDate}</td>
-                  <td>{project.manager}</td>
-                  <td>
-                    <button
-                      onClick={() => markSaveProject(project.id)}
-                      className={`save__project-btn ${
-                        favoriteProjects.find(
-                          (favorite) => favorite.id === project.id
-                        )
-                          ? "savedStar"
-                          : "star"
-                      }`}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        navigate(`/projects/${project.id}/edit`);
-                      }}
-                      className="Edit"
-                    >
-                      Edit
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+            {projects
+              .sort((a, b) => a.id - b.id)
+              .map((project) => {
+                return (
+                  <tr key={project.id}>
+                    <td>{project.id}</td>
+                    <td>{project.name}</td>
+                    <td>{project.startDate}</td>
+                    <td>{project.endDate}</td>
+                    <td>{project.manager}</td>
+                    <td>
+                      <button
+                        onClick={() => markSaveProject(project.id)}
+                        className={`save__project-btn ${
+                          favoriteProjects.find(
+                            (favorite) => favorite.id === project.id
+                          )
+                            ? "savedStar"
+                            : "star"
+                        }`}
+                      />
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => {
+                          navigate(`/projects/${project.id}/edit`);
+                        }}
+                        className="Edit"
+                      >
+                        Edit
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>

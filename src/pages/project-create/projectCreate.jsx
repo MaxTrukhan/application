@@ -28,13 +28,13 @@ const ProjectCreate = ({ setProjects, projects }) => {
     });
   };
 
-  const handleData = (name, date) => {
+  const handleData = (name, month, day, year) => {
     setFormData({
       ...formData,
-      [name]: date,
+      [name]: `${month}/${day}/${year}`,
     });
   };
-  
+
   const [error, setError] = useState("");
 
   const formSubmit = (e) => {
@@ -93,7 +93,14 @@ const ProjectCreate = ({ setProjects, projects }) => {
         <label className="formElement">
           <span className="formLabel">Start Date</span>
           <DatePicker
-            onChange={(date) => handleData("startDate", date)}
+            onChange={(date) =>
+              handleData(
+                "startDate",
+                date.getMonth(),
+                date.getDate(),
+                date.getFullYear()
+              )
+            }
             selected={formData.startDate}
             required
           />
@@ -102,7 +109,14 @@ const ProjectCreate = ({ setProjects, projects }) => {
         <label className="formElement">
           <span className="formLabel">End Date</span>
           <DatePicker
-            onChange={(date) => handleData("endDate", date)}
+            onChange={(date) =>
+              handleData(
+                "endDate",
+                date.getMonth(),
+                date.getDate(),
+                date.getFullYear()
+              )
+            }
             selected={formData.endDate}
           />
         </label>

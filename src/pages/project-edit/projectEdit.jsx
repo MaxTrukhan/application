@@ -1,8 +1,8 @@
-import React from 'react'
-import { useState } from 'react';
-import DatePicker from 'react-datepicker'
+import React from "react";
+import { useState } from "react";
+import DatePicker from "react-datepicker";
 import "../project-create/projectCreate.css";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProjectEdit = ({ projects, setProjects }) => {
   const navigate = useNavigate();
@@ -11,7 +11,6 @@ const ProjectEdit = ({ projects, setProjects }) => {
   const { projectId } = param;
 
   const [updated, setUpdated] = useState({
-    id: "",
     name: "",
     startDate: null,
     endDate: null,
@@ -32,7 +31,7 @@ const ProjectEdit = ({ projects, setProjects }) => {
       [name]: date,
     });
   };
-
+    console.log(updated, 'updated ');
   const update = (id) => {
     fetch("/projects", {
       method: "PUT",
@@ -40,16 +39,16 @@ const ProjectEdit = ({ projects, setProjects }) => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((res) => {
-      const chosenProject = projects.find((project) => project.id == id);
-      setProjects(updated);
-    });
+    })
+      .then(res => {
+        setProjects(projects.map(project => project.id == id ? updated : project))
+      })
   };
   console.log(projects, "projects at edit");
 
   return (
     <div>
-      <form className="formCreate" onSubmit={update}>
+      <form className="formCreate" onSubmit={() => update(projectId)}>
         <label className="formElement">
           <span className="formLabel">Project ID</span>
           <span>{projectId}</span>
@@ -108,4 +107,4 @@ const ProjectEdit = ({ projects, setProjects }) => {
   );
 };
 
-export default ProjectEdit
+export default ProjectEdit;

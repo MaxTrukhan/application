@@ -33,15 +33,27 @@ const ProjectCreate = ({ setProjects, projects }) => {
       ...formData,
       [name]: `${month}/${day}/${year}`,
     });
+     console.log();
   };
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState({
+    id: ``,
+    name: ""
+  });
 
   const formSubmit = (e) => {
     e.preventDefault();
-
+   
     if (projects.find((project) => project.id == formData.id)) {
-      setError(`Next valid ID is ${projects.length + 1}`);
+      setError({
+        ...error,
+        id: `Next valid ID is ${projects.length + 1}`,
+      });
+    }else if (projects.find((project) => project.name == formData.name)) {
+      setError({
+        ...error,
+        name: "The same name already exist ",
+      });
     } else {
       fetch("http://localhost:8003/projects", {
         method: "POST",
@@ -64,9 +76,8 @@ const ProjectCreate = ({ setProjects, projects }) => {
             onChange={(event) => handleFormData(event)}
             value={formData.id}
             name="id"
-            
           />
-          {error && <span style={{ marginLeft: "10px" }}>{error}</span>}
+          {error.id && <span style={{ marginLeft: "10px" }}>{error.id}</span>}
         </label>
 
         <label className="formElement">
@@ -75,8 +86,8 @@ const ProjectCreate = ({ setProjects, projects }) => {
             onChange={(event) => handleFormData(event)}
             value={formData.name}
             name="name"
-            
           />
+          {error.name && <span style={{ marginLeft: "10px" }}>{error.name}</span>}
         </label>
 
         <label className="formElement">
@@ -86,7 +97,6 @@ const ProjectCreate = ({ setProjects, projects }) => {
             name="description"
             rows="10"
             cols="50"
-            
           />
         </label>
 
@@ -102,7 +112,6 @@ const ProjectCreate = ({ setProjects, projects }) => {
               )
             }
             selected={formData.startDate}
-            
           />
         </label>
 
@@ -123,11 +132,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
 
         <label className="formElement">
           <span className="formLabel">Project Manager</span>
-          <input
-            onChange={(event) => handleFormData(event)}
-            name="manager"
-            
-          />
+          <input onChange={(event) => handleFormData(event)} name="manager" />
         </label>
 
         <button type="Submit" className="formBtn">

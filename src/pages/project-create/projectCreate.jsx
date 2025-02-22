@@ -31,7 +31,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
   const handleData = (name, month, day, year) => {
     setFormData({
       ...formData,
-      [name]: `${month}/${day}/${year}`,
+      [name]: `${month + 1}/${day}/${year}`,
     });
      console.log();
   };

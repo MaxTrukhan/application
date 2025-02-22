@@ -53,6 +53,7 @@ tbody{
 /* HTML: <div class="star"></div> */
 .star {
   width: 30px;  
+  height: 30px;
   aspect-ratio: 1;
   clip-path: polygon(50% 0,
     calc(50%*(1 + sin(.4turn))) calc(50%*(1 - cos(.4turn))),
@@ -67,6 +68,7 @@ tbody{
 .savedStar{
     background-color: rgb(174, 149, 10);
     width: 30px;  
+    height: 30px;
   aspect-ratio: 1;
   clip-path: polygon(50% 0,
     calc(50%*(1 + sin(.4turn))) calc(50%*(1 - cos(.4turn))),

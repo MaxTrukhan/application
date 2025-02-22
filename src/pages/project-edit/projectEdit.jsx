@@ -11,6 +11,7 @@ const ProjectEdit = ({ projects, setProjects }) => {
   const { projectId } = param;
 
   const [updated, setUpdated] = useState({
+    id: projectId,
     name: "",
     startDate: null,
     endDate: null,
@@ -25,15 +26,15 @@ const ProjectEdit = ({ projects, setProjects }) => {
       [name]: value,
     });
   };
-  const updatingDate = (name, date) => {
+  const updatingDate = (name, month, day, year) => {
     setUpdated({
       ...updated,
-      [name]: date,
+      [name]: `${month}/${day}/${year}`,
     });
   };
     console.log(updated, 'updated ');
   const update = (id) => {
-    fetch("/projects", {
+    fetch(`/projects/${projectId}`, {
       method: "PUT",
       body: JSON.stringify(updated),
       headers: {
@@ -41,8 +42,9 @@ const ProjectEdit = ({ projects, setProjects }) => {
       },
     })
       .then(res => {
-        setProjects(projects.map(project => project.id == id ? updated : project))
+        res.json()
       })
+    .catch(error => console.log(`Error found, type erorr: ${error}`))
   };
   console.log(projects, "projects at edit");
 

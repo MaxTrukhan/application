@@ -10,12 +10,12 @@ function Aside({ favoriteProjects, setFavoriteProjects }) {
     fetch("http://localhost:8003/projects/favorite")
       .then((res) => res.json())
       .then((data) => {
-        setFavoriteProjects(data.favorite)
+        setFavoriteProjects(data.favorite ? data.favorite : [])
       });
    }, [])
   return (
     <>
-      {favoriteProjects.length > 0 && (
+      {favoriteProjects?.length > 0 && (
         <div className="aside">
           <h1>Favorite Projects</h1>
           <ul>

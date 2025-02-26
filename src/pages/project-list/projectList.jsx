@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../main.css";
 import { useNavigate } from "react-router-dom";
+  // export let chosenId 
+  // const sendChosenId = (id) => {
+  //     chosenId = id
+  // }
 
 const ProjectList = ({
   favoriteProjects,
@@ -9,7 +13,6 @@ const ProjectList = ({
   setProjects,
 }) => {
   const navigate = useNavigate();
-
 
   useEffect(() => {
     fetch("http://localhost:8003/projects")
@@ -44,7 +47,7 @@ const ProjectList = ({
           setFavoriteProjects((prevProjects) => [...prevProjects, savedProject])
         );
   };
-  console.log(projects)
+  console.log(projects);
   return (
     <>
       <div className="projects">
@@ -67,7 +70,9 @@ const ProjectList = ({
                 return (
                   <tr key={project.id}>
                     <td>{project.id}</td>
-                    <td>{project.name}</td>
+                    <td>
+                      <button>{project.name}</button>
+                    </td>
                     <td>{project.startDate}</td>
                     <td>{project.endDate}</td>
                     <td>{project.manager}</td>

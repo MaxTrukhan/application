@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './projectDetail'
 import '../main.css'
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,18 +12,24 @@ const ProjectDetail = ({ projects, favoriteProjects, setFavoriteProjects }) => {
   const { projectId } = param;
   console.log(param);
 
-  const chosenProject = projects.find((project) => project.id == projectId);
-  const checkFavorite = favoriteProjects.find(
+  const [projectDetail, setProjectDetail] = useState({}) 
+  useEffect(() => {
+     fetch(`http://localhost:8003/projects/${projectId}`)
+       .then((res) => res.json())
+       .then((data) => {
+         setProjectDetail(data.project);
+       });
+  }, [])
+
+  console.log(projects, "projectId");
+  const checkFavorite = favoriteProjects?.find(
     (favorite) => favorite.id == projectId
   );
+  if(!Object.values(projectDetail).length) return<>Loading...</>
   return (
-    <div className="detail">
-      {chosenProject !== null &&
-      chosenProject !== undefined &&
-      checkFavorite.id !== null ? (
-        <>
+      <>
           <div>
-            {Object.entries(chosenProject).map(([key, value]) => (
+            {Object.entries(projectDetail).map(([key, value]) => (
               <>
                 <div key={key}>
                   <p className="detail__info">
@@ -59,20 +65,6 @@ const ProjectDetail = ({ projects, favoriteProjects, setFavoriteProjects }) => {
             }`}
           />
         </>
-      ) : (
-        <div className="no__result">
-          <p>No Results</p>
-          <div className="detail__btn-flex">
-            <button
-              className=" detail__btn createBtn "
-              onClick={() => navigate("/projects")}
-            >
-              Back
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
   );
 };
 

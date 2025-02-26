@@ -55,16 +55,16 @@ const ProjectCreate = ({ setProjects, projects }) => {
         name: "The same name already exist ",
       });
     } else {
-      fetch("http://localhost:8003/projects", {
+       fetch("http://localhost:8003/projects", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json",
         },
       }).then((res) => {
-        setProjects([...projects, formData]);
+        if(res.status === 200) navigate("/projects");   
       });
-      navigate("/projects");
+     
     }
   };
   return (

@@ -1,11 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import ProjectList from "./project-list/projectList";
-import { useEffect, useState } from "react";
+import { Children } from "react";
 function Main({
-  favoriteProjects,
-  setFavoriteProjects,
-  projects,
-  setProjects,
+  Children,
 }) {
   const navigate = useNavigate();
 
@@ -16,12 +13,7 @@ function Main({
           Create Project
         </button>
       </div>
-      <ProjectList
-        projects={projects} // to get acces to projects becouse we need it also at projects deteils
-        setProjects={setProjects}
-        favoriteProjects={favoriteProjects}
-        setFavoriteProjects={setFavoriteProjects} //! Prop Driling
-      />
+      {Children}
     </div>
   );
 }

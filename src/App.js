@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Main from "./pages/main";
 import ProjectCreate from "./pages/project-create/projectCreate";
 import ProjectDetail from "./pages/project-detail/projectDetail";
 import ProjectEdit from "./pages/project-edit/projectEdit";
 import Aside from "./Project/aside";
+import ProjectList from "./pages/project-list/projectList";
 
 import {
   BrowserRouter as Router,
@@ -28,12 +29,14 @@ function App() {
         <Routes>
           <Route
             element={
-              <Main
-                projects={projects}
-                setProjects={setProjects}
-                favoriteProjects={favoriteProjects}
-                setFavoriteProjects={setFavoriteProjects}
-              />
+              <Main>
+                <ProjectList
+                  projects={projects} // to get acces to projects becouse we need it also at projects deteils
+                  setProjects={setProjects}
+                  favoriteProjects={favoriteProjects}
+                  setFavoriteProjects={setFavoriteProjects} 
+                />
+              </Main>
             }
             path="/projects"
           />

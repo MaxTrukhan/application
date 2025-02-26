@@ -47,7 +47,7 @@ const ProjectList = ({
           setFavoriteProjects((prevProjects) => [...prevProjects, savedProject])
         );
   };
-  console.log(projects);
+  console.log(favoriteProjects);
   return (
     <>
       <div className="projects">
@@ -71,7 +71,7 @@ const ProjectList = ({
                   <tr key={project.id}>
                     <td>{project.id}</td>
                     <td>
-                      <button>{project.name}</button>
+                      <button className="name___btn" onClick={() => navigate(`/projects/${project.id}`)}>{project.name}</button>
                     </td>
                     <td>{project.startDate}</td>
                     <td>{project.endDate}</td>

@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ProjectList from "./project-list/projectList";
-import { Children } from "react";
-function Main({
-  Children,
-}) {
+function Main({ children }) {
   const navigate = useNavigate();
 
   return (
@@ -13,7 +10,7 @@ function Main({
           Create Project
         </button>
       </div>
-      {Children}
+      {children}
     </div>
   );
 }

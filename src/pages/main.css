@@ -81,3 +81,8 @@ tbody{
     color: brown;
     font-size: 30px;
 }
+.name___btn{
+    background: none;
+    border: none;
+    cursor: pointer;
+}

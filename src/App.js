@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./App.css";
-import Main from "./pages/main";
+// import Main from "./pages/main";
 import ProjectCreate from "./pages/project-create/projectCreate";
 import ProjectDetail from "./pages/project-detail/projectDetail";
 import ProjectEdit from "./pages/project-edit/projectEdit";
-import Aside from "./Project/aside";
-import ProjectList from "./pages/project-list/projectList";
+import Aside from "./components/layout/aside/aside";
+import ProjectList from "./pages/project-list/projects";
+import Main from "./components/layout/main";
 
 import {
   BrowserRouter as Router,
@@ -16,61 +17,46 @@ import {
 function App() {
   const [favoriteProjects, setFavoriteProjects] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [err, setErr] = useState({
-     errGet: '',
-    errPost: '',
-    errDelete: ''
-});
 
   return (
     <div className="App">
-      {/* <Main /> */}
       <Router>
-        <Aside
-          favoriteProjects={favoriteProjects}
-          setFavoriteProjects={setFavoriteProjects}
-        />
-
         <Routes>
-          <Route
-            element={
-              <Main>
+          <Route path="/" element={<Main />}>
+            <Route
+              element={
                 <ProjectList
-                  setErr={setErr}
-                  err={err}
-                  projects={projects} // to get acces to projects becouse we need it also at projects deteils
+                  projects={projects}
                   setProjects={setProjects}
                   favoriteProjects={favoriteProjects}
                   setFavoriteProjects={setFavoriteProjects}
                 />
-              </Main>
-            }
-            path="/projects"
-          />
-          <Route
-            element={
-              <ProjectCreate projects={projects} setProjects={setProjects} />
-            }
-            path="/projects/new"
-          />
-          <Route
-            element={
-              <ProjectDetail
-                setErr={setErr}
-                err={err}
-                projects={projects}
-                favoriteProjects={favoriteProjects}
-                setFavoriteProjects={setFavoriteProjects}
-              />
-            }
-            path="/projects/:projectId"
-          />
-          <Route
-            element={
-              <ProjectEdit projects={projects} setProjects={setProjects} />
-            }
-            path="/projects/:projectId/edit"
-          />
+              }
+              path="projects"
+            />
+            <Route
+              element={
+                <ProjectCreate projects={projects} setProjects={setProjects} />
+              }
+              path="projects/new"
+            />
+            <Route
+              element={
+                <ProjectDetail
+                  projects={projects}
+                  favoriteProjects={favoriteProjects}
+                  setFavoriteProjects={setFavoriteProjects}
+                />
+              }
+              path="projects/:projectId"
+            />
+            <Route
+              element={
+                <ProjectEdit projects={projects} setProjects={setProjects} />
+              }
+              path="projects/:projectId/edit"
+            />
+          </Route>
         </Routes>
       </Router>
     </div>

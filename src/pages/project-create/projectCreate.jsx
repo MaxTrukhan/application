@@ -55,7 +55,8 @@ const ProjectCreate = ({ setProjects, projects }) => {
         name: "The same name already exist ",
       });
     } else {
-      await fetch("http://localhost:8003/projects", {
+      try {
+         await fetch("http://localhost:8003/projects", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -64,6 +65,10 @@ const ProjectCreate = ({ setProjects, projects }) => {
       }).then((res) => {
         if(res.status === 200) navigate("/projects");   
       });
+      } catch (error) {
+        // set Error
+      }
+     
      
     }
   };

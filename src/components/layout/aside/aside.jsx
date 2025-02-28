@@ -12,8 +12,8 @@ function Aside({ favoriteProjects, setFavoriteProjects }) {
       .then((data) => {
         setFavoriteProjects(data.favorite ? data.favorite : [])
       });
-   }, [])
-  console.log(favoriteProjects);
+  }, [])
+
   return (
     <>
       {favoriteProjects.length > 0 && (

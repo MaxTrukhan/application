@@ -5,8 +5,6 @@ import "./projectDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ProjectDetail = ({
-  setErr,
-  err,
   projects,
   favoriteProjects,
   setFavoriteProjects,
@@ -16,6 +14,13 @@ const ProjectDetail = ({
   const param = useParams();
   const { projectId } = param;
   console.log(param);
+
+    const [err, setErr] = useState({
+       errGet: '',
+      errPost: '',
+      errDelete: ''
+  });
+  
 
   const [projectDetail, setProjectDetail] = useState({});
   useEffect(() => {
@@ -39,9 +44,9 @@ const ProjectDetail = ({
           },
         }).then((res) => {
           if (res.status === 200) {
-            setFavoriteProjects(
+            setFavoriteProjects([
               favoriteProjects.filter((favorite) => favorite.id !== projectId)
-            );
+            ]);
           }
         });
       } catch (error) {

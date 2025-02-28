@@ -41,7 +41,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
     name: ""
   });
 
-  const formSubmit = (e) => {
+  const formSubmit = async(e) => {
     e.preventDefault();
    
     if (projects.find((project) => project.id == formData.id)) {
@@ -55,7 +55,7 @@ const ProjectCreate = ({ setProjects, projects }) => {
         name: "The same name already exist ",
       });
     } else {
-       fetch("http://localhost:8003/projects", {
+      await fetch("http://localhost:8003/projects", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {

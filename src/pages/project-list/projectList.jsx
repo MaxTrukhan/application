@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../main.css";
 import { useNavigate } from "react-router-dom";
-  // export let chosenId 
-  // const sendChosenId = (id) => {
-  //     chosenId = id
-  // }
+// export let chosenId
+// const sendChosenId = (id) => {
+//     chosenId = id
+// }
 
 const ProjectList = ({
+  err, 
+  setErr,
   favoriteProjects,
   setFavoriteProjects,
   projects,
@@ -14,42 +16,83 @@ const ProjectList = ({
 }) => {
   const navigate = useNavigate();
 
+
+
   useEffect(() => {
     fetch("http://localhost:8003/projects")
       .then((res) => res.json())
       .then((data) => {
         setProjects(data.projects);
+      })
+      .catch((error) => {
+        setErr({...err, errGet: error.message})
       });
   }, []);
 
-  const markSaveProject = (id) => {
+  const markSaveProject = async(id) => {
     const savedProject = projects.find((project) => project.id === id);
 
-    favoriteProjects.find((favorite) => favorite.id === id)
-      ? fetch("http://localhost:8003/projects/favorite", {
+    if (favoriteProjects.find((favorite) => favorite.id === id)) {
+      try {
+        await fetch("http://localhost:8003/projects/favorite", {
           method: "DELETE",
           body: JSON.stringify({ id: savedProject.id }),
           headers: {
             "Content-Type": "application/json",
           },
-        }).then((res) =>
-          setFavoriteProjects(
-            favoriteProjects.filter((favorite) => favorite.id !== id)
-          )
-        )
-      : fetch("http://localhost:8003/projects/favorite", {
+        }).then((res) => {
+          if (res.status === 200) {
+             setFavoriteProjects(
+               favoriteProjects.filter((favorite) => favorite.id !== id)
+             );
+          } else {
+            throw new Error(`Can't delete ${id}`)
+          }
+             
+        }
+         )
+      } catch (error) {
+         setErr({ ...err, errDelete: error.message })
+      } finally {
+        setTimeout(() => {
+          setErr({...err, errDelete: ''})
+        }, 3000)
+      }
+    } else {
+      try {
+       await fetch("http://localhost:8003/projects/favorite", {
           method: "POST",
           body: JSON.stringify(savedProject),
           headers: {
             "Content-Type": "application/json",
           },
-        }).then((res) =>
-          setFavoriteProjects((prevProjects) => [...prevProjects, savedProject])
-        );
+        })
+          .then((res) => {
+            console.log(res)
+            if (res.status === 200) {
+              setFavoriteProjects((prevProjects) => [
+                ...prevProjects,
+                savedProject,
+              ]);
+            } else {
+              throw new Error("Something went wrong");
+            }
+          })
+      } catch (error) {
+            setErr({...err, errPost: error.message});
+            console.log(error.message);
+      } finally {
+        setTimeout(() => {
+          setErr({...err, errPost: ''})
+        }, 3000)
+      }
+   }      
   };
   console.log(favoriteProjects);
   return (
     <>
+      {err ? <div>{err.errPost}</div> : ""}
+
       <div className="projects">
         <table>
           <thead>
@@ -71,7 +114,12 @@ const ProjectList = ({
                   <tr key={project.id}>
                     <td>{project.id}</td>
                     <td>
-                      <button className="name___btn" onClick={() => navigate(`/projects/${project.id}`)}>{project.name}</button>
+                      <button
+                        className="name___btn"
+                        onClick={() => navigate(`/projects/${project.id}`)}
+                      >
+                        {project.name}
+                      </button>
                     </td>
                     <td>{project.startDate}</td>
                     <td>{project.endDate}</td>
@@ -108,4 +156,4 @@ const ProjectList = ({
   );
 };
 
-export default ProjectList
+export default ProjectList;

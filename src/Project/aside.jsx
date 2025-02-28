@@ -13,9 +13,10 @@ function Aside({ favoriteProjects, setFavoriteProjects }) {
         setFavoriteProjects(data.favorite ? data.favorite : [])
       });
    }, [])
+  console.log(favoriteProjects);
   return (
     <>
-      {favoriteProjects?.length > 0 && (
+      {favoriteProjects.length > 0 && (
         <div className="aside">
           <h1>Favorite Projects</h1>
           <ul>

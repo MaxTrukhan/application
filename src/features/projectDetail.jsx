@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./projectDetail";
-import "../main.css";
-import "./projectDetail.css";
+import "../components/layout/main.css";
+import "../pages/project-detail/projectDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ProjectDetail = ({
+  projectDetail,
   projects,
   favoriteProjects,
   setFavoriteProjects,
@@ -15,22 +16,11 @@ const ProjectDetail = ({
   const { projectId } = param;
   console.log(param);
 
-    const [err, setErr] = useState({
-       errGet: '',
-      errPost: '',
-      errDelete: ''
+  const [err, setErr] = useState({
+    errGet: "",
+    errPost: "",
+    errDelete: "",
   });
-  
-
-  const [projectDetail, setProjectDetail] = useState({});
-  useEffect(() => {
-    fetch(`http://localhost:8003/projects/${projectId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProjectDetail(data.project);
-      })
-      .catch(error => setErr({...err, errGet: error.message}));
-  }, []);
 
   const saveToFavorite = async () => {
     const findProject = projects.find((project) => project.id == projectId);
@@ -45,7 +35,7 @@ const ProjectDetail = ({
         }).then((res) => {
           if (res.status === 200) {
             setFavoriteProjects([
-              favoriteProjects.filter((favorite) => favorite.id !== projectId)
+              favoriteProjects.filter((favorite) => favorite.id !== projectId),
             ]);
           }
         });
@@ -74,10 +64,10 @@ const ProjectDetail = ({
   return (
     <div style={{ display: "flex", marginTop: "30px" }}>
       <div>
-        {err.errGet && <div>{ err.errGet }</div>}
-        {err.errPost && <div>{ err.errPost }</div>}
+        {err.errGet && <div>{err.errGet}</div>}
+        {err.errPost && <div>{err.errPost}</div>}
         {err.errDelete && <div>{err.errDelete}</div>}
-        
+
         {Object.entries(projectDetail).map(([key, value]) => (
           <>
             <div key={key}>

@@ -1,24 +1,8 @@
 import React from "react";
-import { useState } from "react";
 import DatePicker from "react-datepicker";
-import "../project-create/projectCreate.css";
-import { useNavigate, useParams } from "react-router-dom";
+import "../pages/project-create/projectCreate.css";
 
-const ProjectEdit = ({ projects, setProjects }) => {
-  const navigate = useNavigate();
-
-  const param = useParams();
-  const { projectId } = param;
-
-  const [updated, setUpdated] = useState({
-    id: projectId,
-    name: "",
-    startDate: null,
-    endDate: null,
-    description: "",
-    manager: "",
-  });
-
+const ProjectEdit = ({ update, updated, setUpdated, projectId }) => {
   const updating = (e) => {
     const { name, value } = e.target;
     setUpdated({
@@ -32,21 +16,6 @@ const ProjectEdit = ({ projects, setProjects }) => {
       [name]: `${month}/${day}/${year}`,
     });
   };
-    console.log(updated, 'updated ');
-  const update = (id) => {
-    fetch(`/projects/${projectId}`, {
-      method: "PUT",
-      body: JSON.stringify(updated),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(res => {
-        res.json()
-      })
-    .catch(error => console.log(`Error found, type erorr: ${error}`))
-  };
-  console.log(projects, "projects at edit");
 
   return (
     <div>

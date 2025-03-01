@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../main.css";
+import "../components/layout/main.css";
 import { useNavigate } from "react-router-dom";
 
 
@@ -7,7 +7,6 @@ const ProjectList = ({
   favoriteProjects,
   setFavoriteProjects,
   projects,
-  setProjects,
 }) => {
   const navigate = useNavigate();
 
@@ -43,7 +42,7 @@ const ProjectList = ({
       } finally {
         setTimeout(() => {
           setErr({ ...err, errDelete: "" });
-        }, 3000);
+        }, 7000);
       }
     } else {
       try {
@@ -70,7 +69,7 @@ const ProjectList = ({
       } finally {
         setTimeout(() => {
           setErr({ ...err, errPost: "" });
-        }, 3000);
+        }, 7000);
       }
     }
   };

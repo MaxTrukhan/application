@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ProjectList from "../../features/projectsList";
-import "../main.css";
+import "../../components/layout/main.css";
 
-const Projects = ({
-  projects,
-  setProjects,
-}) => {
+const Projects = ({ setProjects, projects, favoriteProjects, setFavoriteProjects }) => {
   const [err, setErr] = useState({
-     errGet: '',
-    errPost: '',
-    errDelete: ''
-});
-
+    errGet: "",
+    errPost: "",
+    errDelete: "",
+  });
 
   useEffect(() => {
     fetch("http://localhost:8003/projects")
@@ -20,7 +16,7 @@ const Projects = ({
         setProjects(data.projects);
       })
       .catch((error) => {
-        setErr({...err, errGet: error.message})
+        setErr({ ...err, errGet: error.message });
       });
   }, []);
 
@@ -29,7 +25,11 @@ const Projects = ({
       {err ? <div>{err.errPost}</div> : ""}
 
       <div className="projects">
-        <ProjectList projects={projects} />
+        <ProjectList
+          projects={projects}
+          favoriteProjects={favoriteProjects}
+          setFavoriteProjects={setFavoriteProjects}
+        />
       </div>
     </>
   );

@@ -1,12 +1,11 @@
 import React from 'react'
 import { Outlet } from "react-router-dom";
-import Aside from './aside/aside'
 
-function Main() {
+function Main({children}) {
   return (
     <div>
-          <Aside />
-          <Outlet/>
+      {children}
+      <Outlet />
     </div>
   );
 }

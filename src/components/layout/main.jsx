@@ -1,13 +1,17 @@
-import React from 'react'
+import React from "react";
+import Aside from "./aside/aside";
 import { Outlet } from "react-router-dom";
 
-function Main({children}) {
+function Main({ favoriteProjects, setFavoriteProjects }) {
   return (
     <div>
-      {children}
+      <Aside
+        favoriteProjects={favoriteProjects}
+        setFavoriteProjects={setFavoriteProjects}
+      />
       <Outlet />
     </div>
   );
 }
 
-export default Main
+export default Main;

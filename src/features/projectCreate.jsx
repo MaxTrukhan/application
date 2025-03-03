@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./projectCreate.css";
+import "../pages/project-create/projectCreate.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
@@ -8,18 +8,7 @@ import { useNavigate } from "react-router-dom";
 // import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from "react";
 
-const ProjectCreate = ({ setProjects, projects }) => {
-  const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    id: Number,
-    name: "",
-    description: "",
-    startDate: null, // Initially no date selected
-    endDate: null, // Initially no date selected
-    manager: "",
-  });
-
+const ProjectCreate = ({ formSubmit, setFormData, formData, error }) => {
   const handleFormData = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -33,45 +22,10 @@ const ProjectCreate = ({ setProjects, projects }) => {
       ...formData,
       [name]: `${month + 1}/${day}/${year}`,
     });
-     console.log();
+    console.log();
   };
 
-  const [error, setError] = useState({
-    id: ``,
-    name: ""
-  });
 
-  const formSubmit = async(e) => {
-    e.preventDefault();
-   
-    if (projects.find((project) => project.id == formData.id)) {
-      setError({
-        ...error,
-        id: `Next valid ID is ${projects.length + 1}`,
-      });
-    }else if (projects.find((project) => project.name == formData.name)) {
-      setError({
-        ...error,
-        name: "The same name already exist ",
-      });
-    } else {
-      try {
-         await fetch("http://localhost:8003/projects", {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
-        if(res.status === 200) navigate("/projects");   
-      });
-      } catch (error) {
-        // set Error
-      }
-     
-     
-    }
-  };
   return (
     <div className="new">
       <form className="formCreate" onSubmit={formSubmit}>
@@ -92,7 +46,9 @@ const ProjectCreate = ({ setProjects, projects }) => {
             value={formData.name}
             name="name"
           />
-          {error.name && <span style={{ marginLeft: "10px" }}>{error.name}</span>}
+          {error.name && (
+            <span style={{ marginLeft: "10px" }}>{error.name}</span>
+          )}
         </label>
 
         <label className="formElement">

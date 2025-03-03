@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 // import Main from "./pages/main";
-import ProjectCreate from "./pages/project-create/projectCreate";
+import ProjectCreate from "./pages/project-create/create";
 import Detail from "./pages/project-detail/detail";
 import Edit from "./pages/project-edit/edit";
 import Aside from "./components/layout/aside/aside";
@@ -22,18 +22,16 @@ function App() {
           <Route
             path="/"
             element={
-              <Main>
-                <Aside
-                  favoriteProjects={favoriteProjects}
-                  setFavoriteProjects={setFavoriteProjects}
-                />
-              </Main>
+              <Main
+                favoriteProjects={favoriteProjects}
+                setFavoriteProjects={setFavoriteProjects}
+              />
             }
           >
             <Route
               path="projects"
               element={
-                <Projects
+                <Projects 
                   projects={projects}
                   favoriteProjects={favoriteProjects}
                   setFavoriteProjects={setFavoriteProjects}
@@ -59,10 +57,7 @@ function App() {
                 />
               }
             />
-            <Route
-              path="projects/:projectId/edit"
-              element={<Edit/>}
-            />
+            <Route path="projects/:projectId/edit" element={<Edit />} />
           </Route>
         </Routes>
       </Router>

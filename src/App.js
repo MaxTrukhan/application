@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import "./App.css";
 // import Main from "./pages/main";
-import ProjectCreate from "./pages/project-create/create";
+import Create from "./pages/project-create/create";
 import Detail from "./pages/project-detail/detail";
 import Edit from "./pages/project-edit/edit";
-import Aside from "./components/layout/aside/aside";
 import Projects from "./pages/project-list/projects";
 import Main from "./components/layout/main";
 
@@ -14,7 +13,7 @@ function App() {
   const [favoriteProjects, setFavoriteProjects] = useState([]);
   const [projects, setProjects] = useState([]);
   const [projectDetail, setProjectDetail] = useState({});
-
+  console.log(projects);
   return (
     <div className="App">
       <Router>
@@ -42,7 +41,7 @@ function App() {
             <Route
               path="projects/new"
               element={
-                <ProjectCreate projects={projects} setProjects={setProjects} />
+                <Create projects={projects} setProjects={setProjects} />
               }
             />
             <Route

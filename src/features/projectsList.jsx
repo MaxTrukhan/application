@@ -73,7 +73,7 @@ const ProjectList = ({
       }
     }
   };
-  console.log(favoriteProjects);
+  console.log(projects);
   return (
     <>
       {err ? <div>{err.errPost}</div> : ""}

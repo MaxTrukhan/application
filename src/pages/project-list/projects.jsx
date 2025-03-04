@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProjectList from "../../features/projectsList";
 import "../../components/layout/main.css";
+import ProjectsCreateBtn from "./components/projectsCreateBtn";
 
 const Projects = ({ setProjects, projects, favoriteProjects, setFavoriteProjects }) => {
   const [err, setErr] = useState({
@@ -25,6 +26,7 @@ const Projects = ({ setProjects, projects, favoriteProjects, setFavoriteProjects
       {err ? <div>{err.errPost}</div> : ""}
 
       <div className="projects">
+        <ProjectsCreateBtn/>
         <ProjectList
           projects={projects}
           favoriteProjects={favoriteProjects}

@@ -27,6 +27,8 @@ const Create = ({ setProjects, projects }) => {
     name: "",
   });
 
+  const [err, setErr] = useState('')
+
   const formSubmit = async (e) => {
     e.preventDefault();
 
@@ -52,17 +54,20 @@ const Create = ({ setProjects, projects }) => {
           if (res.status === 200) navigate("/projects");
         });
       } catch (error) {
-        // set Error
+        if (error) setErr(`You have error: ${error.message}`);
       }
     }
   };
   return (
-    <ProjectCreate
-      formSubmit={formSubmit}
-      setFormData={setFormData}
-      formData={formData}
-      error={error}
-    />
+    <>
+      {err ? err : ''}
+      <ProjectCreate
+        formSubmit={formSubmit}
+        setFormData={setFormData}
+        formData={formData}
+        error={error}
+      />
+    </>
   );
 };
 

@@ -1,34 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useState, useContext } from "react";
 import "../pages/project-create/projectCreate.css";
-import CreateForm from "../components/form/createForm";
+import { useNavigate } from "react-router-dom";
+import Form from "../components/form/form";
+import { ProjectProvider } from "../context/contextProjects";
+const ProjectCreate = () => {
+  const { formData } = useContext(ProjectProvider);
+  const navigate = useNavigate();
 
-const ProjectCreate = ({ formSubmit, setFormData, formData, error }) => {
-  const handleFormData = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const [error, setError] = useState("");
+  const formSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await fetch("http://localhost:8003/projects", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        if (res.status === 200) navigate("/projects");
+      });
+    } catch (error) {
+      if (error) setError(`You have error: ${error.message}`);
+    }
   };
-
-  const handleData = (name, month, day, year) => {
-    setFormData({
-      ...formData,
-      [name]: `${month + 1}/${day}/${year}`,
-    });
-    console.log();
-  };
-
 
   return (
     <div className="new">
-      <CreateForm
-        formSubmit={formSubmit}
-        handleFormData={handleFormData}
-        formData={formData}
-        error={error}
-        handleData={handleData}
-      />
+      {error ? error : ""}
+      <Form formSubmit={formSubmit} />
     </div>
   );
 };

@@ -1,18 +1,45 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import "../../pages/project-create/projectCreate.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { ProjectProvider } from "../../context/contextProjects";
 
-function CreateForm({ formSubmit, handleFormData, formData, error, handleData }) {
+function Form({ formSubmit, projectId }) {
+  const { setFormData, formData } = useContext(ProjectProvider);
+
+  const [error, setError] = useState({});
+
+  const handleFormData = (e) => {
+    const { name, value } = e.target;
+    if (value.length > 250) setError({ [name]: "to long" });
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleDate = (name, month, day, year) => {
+    setFormData({
+      ...formData,
+      [name]: `${month + 1}/${day}/${year}`,
+    });
+  };
+
+
   return (
-    <form className="formCreate" onSubmit={formSubmit}>
+    <form className="form" onSubmit={formSubmit}>
       <label className="formElement">
         <span className="formLabel">Project ID</span>
-        <input
-          onChange={(event) => handleFormData(event)}
-          value={formData.id}
-          name="id"
-        />
+        {projectId ? (
+          projectId
+        ) : (
+          <input
+            onChange={(event) => handleFormData(event)}
+            value={formData.id}
+            name="id"
+          />
+        )}
+
         {error.id && <span style={{ marginLeft: "10px" }}>{error.id}</span>}
       </label>
 
@@ -40,7 +67,7 @@ function CreateForm({ formSubmit, handleFormData, formData, error, handleData })
         <span className="formLabel">Start Date</span>
         <DatePicker
           onChange={(date) =>
-            handleData(
+            handleDate(
               "startDate",
               date.getMonth(),
               date.getDate(),
@@ -55,7 +82,7 @@ function CreateForm({ formSubmit, handleFormData, formData, error, handleData })
         <span className="formLabel">End Date</span>
         <DatePicker
           onChange={(date) =>
-            handleData(
+            handleDate(
               "endDate",
               date.getMonth(),
               date.getDate(),
@@ -72,10 +99,10 @@ function CreateForm({ formSubmit, handleFormData, formData, error, handleData })
       </label>
 
       <button type="Submit" className="formBtn">
-        Create
+        {projectId ? "Edit" : "Create"}
       </button>
     </form>
   );
 }
 
-export default CreateForm;
+export default Form;

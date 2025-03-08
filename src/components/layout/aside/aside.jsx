@@ -1,27 +1,31 @@
-import React from 'react'
-import '../../../App.css'
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import "../../../App.css";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { ProjectContext } from "../../../context/contextProjects";
 
-
-function Aside({ favoriteProjects, setFavoriteProjects }) {
+function Aside() {
   const navigate = useNavigate();
+  const { favorites, setFavorites } = useContext(ProjectContext);
 
-   useEffect(() => {
-    fetch("http://localhost:8003/projects/favorite")
-      .then((res) => res.json())
-      .then((data) => {
-        setFavoriteProjects(data.favorite ? data.favorite : [])
-      });
-  }, [])
+  useEffect(() => {
+    (async function () {
+      await fetch("http://localhost:8003/projects/favorite")
+        .then((res) => res.json())
+        .then((data) => {
+          setFavorites(data.favorite ? data.favorite : []);
+        });
+    })();
+  }, []);
 
   return (
     <>
-      {favoriteProjects.length > 0 && (
+      {favorites.length > 0 && (
         <div className="aside">
           <h1>Favorite Projects</h1>
           <ul>
-            {favoriteProjects.map((favorite) => {
+            {favorites.map((favorite) => {
               return (
                 <button onClick={() => navigate(`/projects/${favorite.id}`)}>
                   <li>{favorite.name}</li>
@@ -35,4 +39,4 @@ function Aside({ favoriteProjects, setFavoriteProjects }) {
   );
 }
 
-export default Aside
+export default Aside;

@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
 import "../components/layout/main.css";
 import { useNavigate } from "react-router-dom";
+import { ProjectContext } from "../context/contextProjects";
 
-
-const ProjectList = ({
-  favoriteProjects,
-  setFavoriteProjects,
-  projects,
-}) => {
+const ProjectList = () => {
+    const { projects, favorites, setFavorites } = useContext(ProjectContext);
   const navigate = useNavigate();
 
   const [err, setErr] = useState({
@@ -20,7 +17,7 @@ const ProjectList = ({
   const markSaveProject = async (id) => {
     const savedProject = projects.find((project) => project.id === id);
 
-    if (favoriteProjects.find((favorite) => favorite.id === id)) {
+    if (favorites.find((favorite) => favorite.id === id)) {
       try {
         await fetch("http://localhost:8003/projects/favorite", {
           method: "DELETE",
@@ -30,9 +27,7 @@ const ProjectList = ({
           },
         }).then((res) => {
           if (res.status === 200) {
-            setFavoriteProjects(
-              favoriteProjects.filter((favorite) => favorite.id !== id)
-            );
+            setFavorites(favorites.filter((favorite) => favorite.id !== id));
           } else {
             throw new Error(`Can't delete ${id}`);
           }
@@ -53,19 +48,14 @@ const ProjectList = ({
             "Content-Type": "application/json",
           },
         }).then((res) => {
-          console.log(res);
           if (res.status === 200) {
-            setFavoriteProjects((prevProjects) => [
-              ...prevProjects,
-              savedProject,
-            ]);
+            setFavorites((prevProjects) => [...prevProjects, savedProject]);
           } else {
             throw new Error("Something went wrong");
           }
         });
       } catch (error) {
         setErr({ ...err, errPost: error.message });
-        console.log(error.message);
       } finally {
         setTimeout(() => {
           setErr({ ...err, errPost: "" });
@@ -73,7 +63,7 @@ const ProjectList = ({
       }
     }
   };
-  console.log(projects);
+
   return (
     <>
       {err ? <div>{err.errPost}</div> : ""}
@@ -113,7 +103,7 @@ const ProjectList = ({
                       <button
                         onClick={() => markSaveProject(project.id)}
                         className={`save__project-btn ${
-                          favoriteProjects.find(
+                          favorites.find(
                             (favorite) => favorite.id === project.id
                           )
                             ? "savedStar"

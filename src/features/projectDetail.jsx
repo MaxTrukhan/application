@@ -1,30 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./projectDetail";
 import "../components/layout/main.css";
 import "../pages/project-detail/projectDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
-
-const ProjectDetail = ({
-  projectDetail,
-  projects,
-  favoriteProjects,
-  setFavoriteProjects,
-}) => {
+import { useContext } from "react";
+import { ProjectProvider } from "../context/contextProjects";
+import { DetailProvider } from "../context/contextDetail";
+const ProjectDetail = () => {
+  const { projects, favorites, setFavorites, projectDetail } =
+    useContext(ProjectProvider);
+  const {errGet} = useContext(DetailProvider);
   const navigate = useNavigate();
 
   const param = useParams();
   const { projectId } = param;
-  console.log(param);
 
   const [err, setErr] = useState({
-    errGet: "",
     errPost: "",
     errDelete: "",
   });
 
   const saveToFavorite = async () => {
     const findProject = projects.find((project) => project.id == projectId);
-    if (favoriteProjects.find((favorite) => favorite.id == projectId)) {
+    if (favorites.find((favorite) => favorite.id == projectId)) {
       try {
         await fetch("http://localhost:8003/projects/favorite", {
           method: "DELETE",
@@ -34,8 +32,8 @@ const ProjectDetail = ({
           },
         }).then((res) => {
           if (res.status === 200) {
-            setFavoriteProjects([
-              favoriteProjects.filter((favorite) => favorite.id !== projectId),
+            setFavorites([
+              favorites.filter((favorite) => favorite.id !== projectId),
             ]);
           }
         });
@@ -50,21 +48,21 @@ const ProjectDetail = ({
           headers: {
             "Content-Type": "application/json",
           },
-        }).then((res) => setFavoriteProjects((prev) => [...prev, findProject]));
+        }).then((res) => setFavorites((prev) => [...prev, findProject]));
       } catch (error) {
         setErr({ ...err, errPost: error.message });
       }
     }
   };
-  console.log(favoriteProjects);
-  const checkFavorite = favoriteProjects.find(
+
+  const checkFavorite = favorites.find(
     (favorite) => favorite.id == projectId
   );
   if (!Object.values(projectDetail).length) return <>Loading...</>;
   return (
     <div style={{ display: "flex", marginTop: "30px" }}>
       <div>
-        {err.errGet && <div>{err.errGet}</div>}
+        {errGet && <div>{errGet}</div>}
         {err.errPost && <div>{err.errPost}</div>}
         {err.errDelete && <div>{err.errDelete}</div>}
 

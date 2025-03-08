@@ -1,31 +1,41 @@
-import React from "react";
-import EditForm from "../components/form/editForm";
+import React, { useState } from "react";
 import "../pages/project-create/projectCreate.css";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import Form from "../components/form/form";
+import { useContext } from "react";
+import { ProjectProvider } from "../context/contextProjects";
 
-const ProjectEdit = ({ update, updated, setUpdated, projectId }) => {
-  const updating = (e) => {
-    const { name, value } = e.target;
-    setUpdated({
-      ...updated,
-      [name]: value,
-    });
-  };
-  const updatingDate = (name, month, day, year) => {
-    setUpdated({
-      ...updated,
-      [name]: `${month + 1}/${day}/${year}`,
-    });
+const ProjectEdit = () => {
+  const { formData } = useContext(ProjectProvider);
+
+  const navigate = useNavigate();
+
+  const param = useParams();
+  const { projectId } = param;
+
+  const [error, setError] = useState();
+  const updateSubmit = () => {
+    fetch(`/projects/${projectId}`, {
+      method: "PUT",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        res.json();
+      })
+      .then((res) => {
+        if (res.status === 200) navigate("/projects");
+      })
+      .catch((error) => setError(`Error found, type erorr: ${error}`));
   };
 
   return (
     <div>
-      <EditForm
-        updating={updating}
-        updatingDate={updatingDate}
-        update={update}
-        projectId={projectId}
-        updated={updated}
-      />
+      {error ? error : ""}
+      <Form projectId={projectId} formSubmit={updateSubmit} />
     </div>
   );
 };

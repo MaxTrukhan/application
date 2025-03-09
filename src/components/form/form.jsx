@@ -2,10 +2,10 @@ import React, { useState, useContext } from "react";
 import "../../pages/project-create/projectCreate.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-import { ProjectProvider } from "../../context/contextProjects";
+import { ProjectContext } from "../../context/contextProjects";
 
 function Form({ formSubmit, projectId }) {
-  const { setFormData, formData } = useContext(ProjectProvider);
+  const { setFormData, formData} = useContext(ProjectContext);
 
   const [error, setError] = useState({});
 

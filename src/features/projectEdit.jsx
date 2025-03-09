@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Form from "../components/form/form";
 import { useContext } from "react";
-import { ProjectProvider } from "../context/contextProjects";
+import { ProjectContext } from "../context/contextProjects";
 
 const ProjectEdit = () => {
-  const { formData } = useContext(ProjectProvider);
+  const { formData } = useContext(ProjectContext);
 
   const navigate = useNavigate();
 

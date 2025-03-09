@@ -2,11 +2,11 @@ import React, { useState, useContext } from "react";
 import "../pages/project-create/projectCreate.css";
 import { useNavigate } from "react-router-dom";
 import Form from "../components/form/form";
-import { ProjectProvider } from "../context/contextProjects";
-const ProjectCreate = () => {
-  const { formData } = useContext(ProjectProvider);
-  const navigate = useNavigate();
+import { ProjectContext } from "../context/contextProjects";
 
+const ProjectCreate = () => {
+  const { formData } = useContext(ProjectContext);
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const formSubmit = async (e) => {
     e.preventDefault();

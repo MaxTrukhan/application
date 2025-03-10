@@ -1,9 +1,9 @@
 import React, { useState, createContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export const DetailProvider = createContext({});
+export const DetailContext = createContext();
 
-function ContextDetail({ children }) {
+export const DetailProvider = ({ children }) => {
   const param = useParams();
   const { projectId } = param;
 
@@ -29,12 +29,10 @@ function ContextDetail({ children }) {
   return (
     <div>
       <DetailProvider.Provider
-        value={{ projectDetail, errGet, isLoading, projectId }}
+        value={{ projectDetail, errGet, isLoading }}
       >
         {children}
       </DetailProvider.Provider>
     </div>
   );
 }
-
-export default ContextDetail;

@@ -4,12 +4,13 @@ import "../components/layout/main.css";
 import "../pages/project-detail/projectDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
-import { ProjectProvider } from "../context/contextProjects";
-import { DetailProvider } from "../context/contextDetail";
+import { ProjectContext } from "../context/contextProjects";
+import { DetailContext } from "../context/contextDetail";
+
 const ProjectDetail = () => {
-  const { projects, favorites, setFavorites, projectDetail } =
-    useContext(ProjectProvider);
-  const {errGet} = useContext(DetailProvider);
+
+  const { projects, favorites, setFavorites } = useContext(ProjectContext);
+  const { errGet, projectDetail } = useContext(DetailContext);
   const navigate = useNavigate();
 
   const param = useParams();

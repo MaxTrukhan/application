@@ -15,8 +15,6 @@ const ProjectList = () => {
   });
 
   const markSaveProject = async (id) => {
-    const savedProject = projects.find((project) => project.id === id);
-console.log(favorites.filter(favorite => favorite.id !== id))
     if (favorites.find((favorite) => favorite.id === id)) {
       console.log("Deleting favorite with id:", id);
       // DELETE logic here
@@ -33,6 +31,7 @@ console.log(favorites.filter(favorite => favorite.id !== id))
             "Content-Type": "application/json",
           },
         });
+          console.log(res)
 
         if (res.status === 200) {
           setFavorites(favorites.filter((favorite) => favorite.id !== id));
@@ -47,6 +46,7 @@ console.log(favorites.filter(favorite => favorite.id !== id))
         }, 7000);
       }
     } else {
+      const savedProject = projects.find((project) => project.id === id);
       try {
         const res = await fetch("http://localhost:8003/projects/favorite", {
           method: "POST",

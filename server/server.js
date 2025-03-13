@@ -31,17 +31,7 @@ let projects = [
   },
 ];
 
-let favoriteProjects = [
-  {
-    id: 3,
-    name: "Project C",
-    startDate: "1/10/2024",
-    endDate: "1/7/2025",
-    description:
-      "The goal of Project C is to develop a cutting-edge analytics platform that can process vast amounts of data in real-time. With the help of AI and machine learning, this project aims to provide predictive insights that will empower decision-makers and help forecast future trends with high accuracy.",
-    manager: "Kety",
-  },
-];
+let favoriteProjects = [];
 
 
 app.use(cors());
@@ -108,9 +98,14 @@ app.post("/projects/favorite", (req, res) => {
 
 
 app.delete("/projects/favorite", (req, res) => {
-  if(res.status !== 200) return 'something went wrong'
+   if (!favoriteProjects.find((project) => project.id === req.body.id)) {
+     // to check if this  project exist
+     return res.status(400).json({
+       message: `No Product ${req.body.id}`,
+     });
+   }
   favoriteProjects = favoriteProjects.filter((favorite) => favorite.id !== req.body.id);
-  res.json(req.body);
+  res.status(200).json(req.body);
 });
 app.listen(8003, () => {
   console.log(`Server is running on port 8003.`);

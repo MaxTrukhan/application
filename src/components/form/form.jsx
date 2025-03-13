@@ -3,15 +3,20 @@ import "../../pages/project-create/projectCreate.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { ProjectContext } from "../../context/contextProjects";
+import { useParams } from "react-router-dom";
+import Input from "./components/input/input";
 
-function Form({ formSubmit, projectId }) {
+function Form({ formSubmit }) {
+    const param = useParams();
+    const { projectId } = param;
+
   const { setFormData, formData} = useContext(ProjectContext);
 
   const [error, setError] = useState({});
 
   const handleFormData = (e) => {
     const { name, value } = e.target;
-    if (value.length > 250) setError({ [name]: "to long" });
+  
     setFormData({
       ...formData,
       [name]: value,
@@ -28,30 +33,21 @@ function Form({ formSubmit, projectId }) {
 
   return (
     <form className="form" onSubmit={formSubmit}>
-      <label className="formElement">
-        <span className="formLabel">Project ID</span>
-        {projectId ? (
-          projectId
-        ) : (
-          <input
-            onChange={(event) => handleFormData(event)}
-            value={formData.id}
-            name="id"
-          />
-        )}
 
-        {error.id && <span style={{ marginLeft: "10px" }}>{error.id}</span>}
-      </label>
-
-      <label className="formElement">
-        <span className="formLabel">Project Name</span>
-        <input
-          onChange={(event) => handleFormData(event)}
-          value={formData.name}
-          name="name"
+        <Input
+          name={"id"}
+          value={ projectId || formData.id}
+          onChange={handleFormData}
+          label={"Project ID"}
+          editable={!projectId}
         />
-        {error.name && <span style={{ marginLeft: "10px" }}>{error.name}</span>}
-      </label>
+
+      <Input
+        name={"name"}
+        value={formData.name}
+        onChange={handleFormData}
+        label={"Project Name"}
+      />
 
       <label className="formElement">
         <span className="formLabel">Description</span>
@@ -93,10 +89,12 @@ function Form({ formSubmit, projectId }) {
         />
       </label>
 
-      <label className="formElement">
-        <span className="formLabel">Project Manager</span>
-        <input onChange={(event) => handleFormData(event)} name="manager" />
-      </label>
+      <Input
+        name={"manager"}
+        value={formData.manager}
+        onChange={handleFormData}
+        label={"Project Manager"}
+      />
 
       <button type="Submit" className="formBtn">
         {projectId ? "Edit" : "Create"}

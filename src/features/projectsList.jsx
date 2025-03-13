@@ -2,74 +2,14 @@ import React, { useState, useContext } from "react";
 import "../components/layout/main.css";
 import { useNavigate } from "react-router-dom";
 import { ProjectContext } from "../context/contextProjects";
+import usePostHook from "../hooks/usePostHook";
 
 const ProjectList = () => {
-  const { projects, favorites, setFavorites } = useContext(ProjectContext);
-  console.log(projects);
+    const { saveToFavorite, err } = usePostHook();
+
+  const { projects, favorites } = useContext(ProjectContext);
+
   const navigate = useNavigate();
-
-  const [err, setErr] = useState({
-    errGet: "",
-    errPost: "",
-    errDelete: "",
-  });
-
-  const markSaveProject = async (id) => {
-    if (favorites.find((favorite) => favorite.id === id)) {
-      console.log("Deleting favorite with id:", id);
-      // DELETE logic here
-    } else {
-      console.log("Adding to favorites:", id);
-      // POST logic here
-    }
-    if (favorites.find((favorite) => favorite.id === id)) {
-      try {
-        const res = await fetch("http://localhost:8003/projects/favorite", {
-          method: "DELETE",
-          body: JSON.stringify({ id }), // Make sure the id is being sent
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-          console.log(res)
-
-        if (res.status === 200) {
-          setFavorites(favorites.filter((favorite) => favorite.id !== id));
-        } else {
-          throw new Error(`Can't delete favorite with ID: ${id}`);
-        }
-      } catch (error) {
-        setErr({ ...err, errDelete: error.message });
-      } finally {
-        setTimeout(() => {
-          setErr({ ...err, errDelete: "" });
-        }, 7000);
-      }
-    } else {
-      const savedProject = projects.find((project) => project.id === id);
-      try {
-        const res = await fetch("http://localhost:8003/projects/favorite", {
-          method: "POST",
-          body: JSON.stringify(savedProject),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (res.status === 200) {
-          setFavorites((prevProjects) => [...prevProjects, savedProject]);
-        } else {
-          throw new Error("Something went wrong");
-        }
-      } catch (error) {
-        setErr({ ...err, errPost: error.message });
-      } finally {
-        setTimeout(() => {
-          setErr({ ...err, errPost: "" });
-        }, 7000);
-      }
-    }
-  };
 
   return (
     <>
@@ -107,7 +47,7 @@ const ProjectList = () => {
                   <td>{project.manager}</td>
                   <td>
                     <button
-                      onClick={() => markSaveProject(project.id)}
+                      onClick={() => saveToFavorite(project.id)}
                       className={`save__project-btn ${
                         favorites.find((favorite) => favorite.id === project.id)
                           ? "savedStar"

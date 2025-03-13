@@ -17,7 +17,7 @@ export const DetailProvider = ({ children }) => {
         const response = await fetch(
           `http://localhost:8003/projects/${projectId}`
         ).then((res) => res.json());
-        setProjectDetail(response);
+        setProjectDetail(response.project);
       } catch (error) {
         setErrorGet(error);
       } finally {
@@ -28,11 +28,9 @@ export const DetailProvider = ({ children }) => {
     
   return (
     <div>
-      <DetailProvider.Provider
-        value={{ projectDetail, errGet, isLoading }}
-      >
+      <DetailContext.Provider value={{ projectDetail, errGet, isLoading }}>
         {children}
-      </DetailProvider.Provider>
+      </DetailContext.Provider>
     </div>
   );
 }

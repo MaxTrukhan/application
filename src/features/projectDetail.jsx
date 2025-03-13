@@ -6,59 +6,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { ProjectContext } from "../context/contextProjects";
 import { DetailContext } from "../context/contextDetail";
+import usePostHook from "../hooks/usePostHook";
 
 const ProjectDetail = () => {
-
-  const { projects, favorites, setFavorites } = useContext(ProjectContext);
-  const { errGet, projectDetail } = useContext(DetailContext);
   const navigate = useNavigate();
 
   const param = useParams();
   const { projectId } = param;
 
-  const [err, setErr] = useState({
-    errPost: "",
-    errDelete: "",
-  });
+  const { favorites } = useContext(ProjectContext);
+  const { errGet, projectDetail } = useContext(DetailContext);
 
-  const saveToFavorite = async () => {
-    const findProject = projects.find((project) => project.id == projectId);
-    if (favorites.find((favorite) => favorite.id == projectId)) {
-      try {
-        await fetch("http://localhost:8003/projects/favorite", {
-          method: "DELETE",
-          body: JSON.stringify({ id: projectId }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then((res) => {
-          if (res.status === 200) {
-            setFavorites([
-              favorites.filter((favorite) => favorite.id !== projectId),
-            ]);
-          }
-        });
-      } catch (error) {
-        setErr({ ...err, errDelete: error.message });
-      }
-    } else {
-      try {
-        await fetch("http://localhost:8003/projects/favorite", {
-          method: "POST",
-          body: JSON.stringify(findProject),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then((res) => setFavorites((prev) => [...prev, findProject]));
-      } catch (error) {
-        setErr({ ...err, errPost: error.message });
-      }
-    }
-  };
 
-  const checkFavorite = favorites.find(
-    (favorite) => favorite.id == projectId
-  );
+  const { saveToFavorite, err } = usePostHook(); // Post and Delete
+
+  const checkFavorite = favorites.find((favorite) => favorite.id == projectId);
   if (!Object.values(projectDetail).length) return <>Loading...</>;
   return (
     <div style={{ display: "flex", marginTop: "30px" }}>
@@ -93,7 +55,7 @@ const ProjectDetail = () => {
         </div>
       </div>
       <button // star
-        onClick={() => saveToFavorite()}
+        onClick={() => saveToFavorite(projectId)}
         style={
           !checkFavorite
             ? { backgroundColor: "rgb(137, 137, 137)" }

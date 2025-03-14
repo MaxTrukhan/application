@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import { ProjectContext } from "../../context/contextProjects";
 import { useParams } from "react-router-dom";
 import Input from "./components/input/input";
+import TextArea from "./components/textArea/textArea";
 
 function Form({ formSubmit }) {
     const param = useParams();
@@ -33,32 +34,23 @@ function Form({ formSubmit }) {
 
   return (
     <form className="form" onSubmit={formSubmit}>
-
-        <Input
-          name={"id"}
-          value={ projectId || formData.id}
-          onChange={handleFormData}
-          label={"Project ID"}
-          editable={!projectId}
-        />
-
+      <Input
+        name={"id"}
+        value={projectId || formData.id}
+        onChange={handleFormData}
+        label={"Project ID"}
+        editable={!projectId}
+      />
       <Input
         name={"name"}
         value={formData.name}
         onChange={handleFormData}
         label={"Project Name"}
       />
-
-      <label className="formElement">
-        <span className="formLabel">Description</span>
-        <textarea
-          onChange={(event) => handleFormData(event)}
-          name="description"
-          rows="10"
-          cols="50"
-        />
-      </label>
-
+      <TextArea
+        onChange={(event) => handleFormData(event)}
+        name={"description"}
+      />
       <label className="formElement">
         <span className="formLabel">Start Date</span>
         <DatePicker
@@ -73,7 +65,6 @@ function Form({ formSubmit }) {
           selected={formData.startDate}
         />
       </label>
-
       <label className="formElement">
         <span className="formLabel">End Date</span>
         <DatePicker
@@ -88,14 +79,12 @@ function Form({ formSubmit }) {
           selected={formData.endDate}
         />
       </label>
-
       <Input
         name={"manager"}
         value={formData.manager}
         onChange={handleFormData}
         label={"Project Manager"}
       />
-
       <button type="Submit" className="formBtn">
         {projectId ? "Edit" : "Create"}
       </button>

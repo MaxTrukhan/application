@@ -1,12 +1,10 @@
 import React, { useState, useContext } from "react";
 import "../../pages/project-create/projectCreate.css";
-import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
 import { ProjectContext } from "../../context/contextProjects";
 import { useParams } from "react-router-dom";
 import Input from "./components/input/input";
 import TextArea from "./components/textArea/textArea";
-
+import Date from "./components/datePicker/datePicker";
 function Form({ formSubmit }) {
     const param = useParams();
     const { projectId } = param;
@@ -51,34 +49,32 @@ function Form({ formSubmit }) {
         onChange={(event) => handleFormData(event)}
         name={"description"}
       />
-      <label className="formElement">
-        <span className="formLabel">Start Date</span>
-        <DatePicker
-          onChange={(date) =>
-            handleDate(
-              "startDate",
-              date.getMonth(),
-              date.getDate(),
-              date.getFullYear()
-            )
-          }
-          selected={formData.startDate}
-        />
-      </label>
-      <label className="formElement">
-        <span className="formLabel">End Date</span>
-        <DatePicker
-          onChange={(date) =>
-            handleDate(
-              "endDate",
-              date.getMonth(),
-              date.getDate(),
-              date.getFullYear()
-            )
-          }
-          selected={formData.endDate}
-        />
-      </label>
+      <Date
+        onChange={(date) =>
+          handleDate(
+            "startDate",
+            date.getMonth(),
+            date.getDate(),
+            date.getFullYear()
+          )
+        }
+        selectedDate={formData.startDate}
+        label={"Start Date"}
+      />
+
+      <Date
+        onChange={(date) =>
+          handleDate(
+            "endDate",
+            date.getMonth(),
+            date.getDate(),
+            date.getFullYear()
+          )
+        }
+        selectedDate={formData.endDate}
+        label={"End Date"}
+      />
+
       <Input
         name={"manager"}
         value={formData.manager}

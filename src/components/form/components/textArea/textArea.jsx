@@ -4,7 +4,7 @@ function TextArea({ onChange, name }) {
       const [error, setError] = useState('')
     const onChangeHandler = (e) => {
         if (e.target.value.length >= 1000) setError({ [name]: 'to long' }) 
-        onChange()
+        onChange(e)
     }
     return (
       <label className="formElement">

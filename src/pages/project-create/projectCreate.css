@@ -1,5 +1,6 @@
 .form{
     margin-top: 3rem;
+    margin-left: 150px;
     line-height: 30px;
     display: flex;
     flex-direction: column;

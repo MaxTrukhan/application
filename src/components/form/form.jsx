@@ -1,17 +1,16 @@
 import React, { useState, useContext } from "react";
-import "../../pages/project-create/projectCreate.css";
 import { ProjectContext } from "../../context/contextProjects";
 import { useParams } from "react-router-dom";
 import Input from "./components/input/input";
 import TextArea from "./components/textArea/textArea";
 import Date from "./components/datePicker/datePicker";
+import "../../pages/project-create/projectCreate.css";
+
 function Form({ formSubmit }) {
     const param = useParams();
     const { projectId } = param;
 
   const { setFormData, formData} = useContext(ProjectContext);
-
-  const [error, setError] = useState({});
 
   const handleFormData = (e) => {
     const { name, value } = e.target;

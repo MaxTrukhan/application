@@ -1,15 +1,14 @@
 import React from "react";
 import Aside from "./aside/aside";
 import { Outlet } from "react-router-dom";
-import { useContext } from "react";
-import { ProjectContext } from "../../context/contextProjects";
-import Loading from "../../loading/loading";
+import { ToastContainer } from "react-toastify";
+
 function Main() {
-  const {loading} = useContext(ProjectContext);
   return (
     <div>
+      <ToastContainer position="top-right" autoClose={3000} />
       <Aside />
-      {loading ? <Loading /> : <Outlet />}
+      <Outlet />
     </div>
   );
 }

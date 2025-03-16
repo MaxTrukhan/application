@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ProjectContext } from "../../../context/contextProjects";
 
+
 function Aside() {
   const navigate = useNavigate();
   const { favorites, setFavorites } = useContext(ProjectContext);
@@ -20,22 +21,16 @@ function Aside() {
   }, []);
 
   return (
-    <>
-      {favorites.length > 0 && (
-        <div className="aside">
-          <h1>Favorite Projects</h1>
-          <ul>
-            {favorites.map((favorite) => {
-              return (
-                <button onClick={() => navigate(`/projects/${favorite.id}`)}>
-                  <li>{favorite.name}</li>
-                </button>
-              );
-            })}
-          </ul>
-        </div>
-      )}
-    </>
+    <div className="aside">
+      <h1>Favorite Projects</h1>
+      <ul>
+        {favorites.map((favorite) => (
+          <button key={favorite.id} onClick={() => navigate(`/projects/${favorite.id}`)}>
+            <li>{favorite.name}</li>
+          </button>
+        ))}
+      </ul>
+    </div>
   );
 }
 

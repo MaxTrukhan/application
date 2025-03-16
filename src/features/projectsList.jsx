@@ -1,21 +1,22 @@
-import React, { useState, useContext } from "react";
-import "../components/layout/main.css";
+import React, { useContext, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { ProjectContext } from "../context/contextProjects";
 import usePostHook from "../hooks/usePostHook";
+import Loading from "../loading/loading";
+import "../components/layout/main.css";
+
 
 const ProjectList = () => {
-    const { saveToFavorite, err } = usePostHook();
-
-  const { projects, favorites } = useContext(ProjectContext);
-
   const navigate = useNavigate();
+  const { projects, favorites, loading } = useContext(ProjectContext);
+  const { saveToFavorite } = usePostHook();
+ 
+
+  if (loading) return <Loading />;
 
   return (
-    <>
-      {err.errPost ? <div>{err.errPost}</div> : ""}
-      {err.errDelete ? <div>{err.errDelete}</div> : ""}
-
+    
       <div className="projects">
         <table>
           <thead>
@@ -71,7 +72,6 @@ const ProjectList = () => {
           </tbody>
         </table>
       </div>
-    </>
   );
 };
 

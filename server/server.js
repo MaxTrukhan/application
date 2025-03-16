@@ -87,9 +87,11 @@ app.get('/projects/favorite', (req, res) => {
 
 app.post("/projects/favorite", (req, res) => {
   if (!projects.find((project) => project.id === req.body.id)) { // to check if this  project exist
+
    return res.status(400).json({
      message: `No Product ${req.body.id}`,
    });
+   
  }
    
   favoriteProjects.push(req.body);
@@ -104,7 +106,7 @@ app.delete("/projects/favorite", (req, res) => {
        message: `No Product ${req.body.id}`,
      });
    }
-  favoriteProjects = favoriteProjects.filter((favorite) => favorite.id !== req.body.id);
+  favoriteProjects = favoriteProjects.filter((favorite) => +favorite.id !== req.body.id);
   res.status(200).json(req.body);
 });
 app.listen(8003, () => {

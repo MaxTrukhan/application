@@ -7,14 +7,7 @@ export const ProjectProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [favorites, setFavorites] = useState([])
-  const [formData, setFormData] = useState({
-    id: Number,
-    name: "",
-    startDate: null,
-    endDate: null,
-    description: "",
-    manager: "",
-  });
+  
    
   useEffect(() => {
     const fetchProjects = async () => {
@@ -38,9 +31,7 @@ export const ProjectProvider = ({ children }) => {
         loading,
         error,
         favorites,
-        setFavorites,
-        setFormData,
-        formData,
+        setFavorites
       }}
     >
       {children}

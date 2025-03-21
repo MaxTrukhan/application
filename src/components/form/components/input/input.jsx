@@ -8,7 +8,6 @@ function Input({ name, value, onChange, label, editable = true}) {
         onChange(e)
     }
   return (
-    <div>
       <label className="formElement">
         <span className="formLabel">{label}</span>
         {editable ? (
@@ -19,7 +18,6 @@ function Input({ name, value, onChange, label, editable = true}) {
 
         {error && <span style={{ marginLeft: "10px" }}>{error}</span>}
       </label>
-    </div>
   );
 }
 

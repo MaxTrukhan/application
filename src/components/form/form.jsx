@@ -7,10 +7,17 @@ import Date from "./components/datePicker/datePicker";
 import "../../pages/project-create/projectCreate.css";
 
 function Form({ formSubmit }) {
+    const [formData, setFormData] = useState({
+        id: "",
+        name: "",
+        startDate: null,
+        endDate: null,
+        description: "",
+        manager: "",
+      });
+
     const param = useParams();
     const { projectId } = param;
-
-  const { setFormData, formData} = useContext(ProjectContext);
 
   const handleFormData = (e) => {
     const { name, value } = e.target;
@@ -59,6 +66,7 @@ function Form({ formSubmit }) {
         }
         selectedDate={formData.startDate}
         label={"Start Date"}
+        name={"startDate"}
       />
 
       <Date
@@ -72,6 +80,8 @@ function Form({ formSubmit }) {
         }
         selectedDate={formData.endDate}
         label={"End Date"}
+        minDate={new Date(formData.startDate ? formData.startDate : "")}
+        name={"endDate"}
       />
 
       <Input

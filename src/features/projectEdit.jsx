@@ -4,7 +4,8 @@ import Form from "../components/form/form";
 import useEditHook from "../hooks/useEditHook";
 
 const ProjectEdit = () => {
-  const { updateSubmit, error} = useEditHook();
+
+  const { updateSubmit, error } = useEditHook();
   
   return (
     <div>

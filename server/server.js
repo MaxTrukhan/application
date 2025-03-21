@@ -3,7 +3,7 @@ const cors = require("cors");
 const app = express();
 let projects = [
   {
-    id: 1,
+    id: "1",
     name: "Project A",
     startDate: "1/10/2024",
     endDate: "1/7/2025",
@@ -12,7 +12,7 @@ let projects = [
     manager: "John",
   },
   {
-    id: 2,
+    id: "2",
     name: "Project B",
     startDate: "1/10/2024",
     endDate: "1/7/2025",
@@ -21,7 +21,7 @@ let projects = [
     manager: "Joun",
   },
   {
-    id: 3,
+    id: "3",
     name: "Project C",
     startDate: "1/10/2024",
     endDate: "1/7/2025",
@@ -38,11 +38,6 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/projects", (req, res) => {
-  if (res.status === 400) {
-     return res.status(400).json({
-       message: "Service not valid",
-     });
-  }
   res.json({
     projects: projects
   });
@@ -51,7 +46,7 @@ app.get("/projects", (req, res) => {
 app.get("/projects/:id", (req, res) => {
   const {params: {id}} = req
   res.json({
-    project: projects.find((project) => project.id == id),
+    project: projects.find((project) => project.id === id),
   });
 });
 
@@ -65,7 +60,7 @@ app.put("/projects/:id", (req, res) => {
     body,
     params: {id}
   } = req
-  const projectID = parseInt(id)
+  const projectID = id
   if (isNaN(projectID)) return res.sendStatus(400);
   const findIndex = projects.findIndex(project => project.id === projectID)
   if (findIndex === -1) return res.sendStatus(404);
@@ -106,7 +101,7 @@ app.delete("/projects/favorite", (req, res) => {
        message: `No Product ${req.body.id}`,
      });
    }
-  favoriteProjects = favoriteProjects.filter((favorite) => +favorite.id !== req.body.id);
+  favoriteProjects = favoriteProjects.filter((favorite) => favorite.id !== req.body.id);
   res.status(200).json(req.body);
 });
 app.listen(8003, () => {

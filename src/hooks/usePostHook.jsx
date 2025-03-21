@@ -1,6 +1,8 @@
 import { useContext, useState } from 'react';
 import { toast } from "react-toastify";
 import { ProjectContext } from '../context/contextProjects';
+import { FaRegTrashCan } from "react-icons/fa6";
+import "./usePostHook.css"
 
 
 export default function usePostHook() {
@@ -10,10 +12,10 @@ export default function usePostHook() {
     const [err, setErr] = useState("");
 
   const saveToFavorite = async (id) => {
-    console.log(favorites);
+
     if (
       favorites.find(
-        (favorite) => +favorite.id === +id
+        (favorite) => favorite.id === id
         )
       ) {
         try {
@@ -28,10 +30,13 @@ export default function usePostHook() {
           if (res.status === 200) {
             setFavorites(
               favorites.filter(
-                (favorite) => +favorite.id !== +id 
+                (favorite) => favorite.id !== id 
               )             
             );
-             toast.success("Delete Success");
+            toast.success("Delete Success", {
+              progressClassName: "tostify___bar",
+              icon: FaRegTrashCan,
+            });
           } else {
             throw new Error(`Can't delete favorite with ID: ${id}`);
           }
@@ -41,7 +46,7 @@ export default function usePostHook() {
         } 
       } else {
         const savedProject = projects.find(
-          (project) => +project.id === +id 
+          (project) => project.id === id 
         );
 
         try {

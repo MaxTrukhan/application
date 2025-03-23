@@ -3,38 +3,52 @@ import { ProjectContext } from "../../context/contextProjects";
 import { useParams } from "react-router-dom";
 import Input from "./components/input/input";
 import TextArea from "./components/textArea/textArea";
-import Date from "./components/datePicker/datePicker";
+import DateComponent from "./components/datePicker/datePicker";
+import { getDateInfo } from "./helpers/dates";
 import "../../pages/project-create/projectCreate.css";
 
 function Form({ formSubmit }) {
-    const [formData, setFormData] = useState({
-        id: "",
-        name: "",
-        startDate: null,
-        endDate: null,
-        description: "",
-        manager: "",
-      });
+  const { projects } = useContext(ProjectContext);
+  const param = useParams();
+  const { projectId } = param;
 
-    const param = useParams();
-    const { projectId } = param;
+  const editingProject = projects.find((project) => project.id === projectId);
+
+  console.log(projects);
+  const [formData, setFormData] = useState({
+    id: "",
+    name: projectId ? editingProject.name : "",
+    startDate: projectId ? editingProject.startDate : null,
+    endDate: projectId ? editingProject.endDate : null,
+    description: projectId ? editingProject.description : "",
+    manager: projectId ? editingProject.manager : "",
+  });
+  const [minDate, setMinDate] = useState(new Date());
+
+  // projects.reduce((acc, project) => {
+  //     if (projectId) {
+  //       const editingProject = project.id === projectId
+  //       acc = editingProject;
+  //     }
+  // }, {});
 
   const handleFormData = (e) => {
     const { name, value } = e.target;
-  
+
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
-  const handleDate = (name, month, day, year) => {
+
+  const handleDate = (name, date) => {
+    const { year, month, day } = getDateInfo(date);
     setFormData({
       ...formData,
       [name]: `${month + 1}/${day}/${year}`,
     });
   };
-
 
   return (
     <form className="form" onSubmit={formSubmit}>
@@ -47,7 +61,7 @@ function Form({ formSubmit }) {
       />
       <Input
         name={"name"}
-        value={formData.name}
+        value={projectId ? editingProject.name : formData.name}
         onChange={handleFormData}
         label={"Project Name"}
       />
@@ -55,33 +69,22 @@ function Form({ formSubmit }) {
         onChange={(event) => handleFormData(event)}
         name={"description"}
       />
-      <Date
-        onChange={(date) =>
-          handleDate(
-            "startDate",
-            date.getMonth(),
-            date.getDate(),
-            date.getFullYear()
-          )
-        }
+      <DateComponent
+        onChange={(date) => {
+          handleDate("startDate", date);
+          setMinDate(date);
+        }}
         selectedDate={formData.startDate}
         label={"Start Date"}
         name={"startDate"}
       />
 
-      <Date
-        onChange={(date) =>
-          handleDate(
-            "endDate",
-            date.getMonth(),
-            date.getDate(),
-            date.getFullYear()
-          )
-        }
+      <DateComponent
+        onChange={(date) => handleDate("endDate", date)}
         selectedDate={formData.endDate}
         label={"End Date"}
-        minDate={new Date(formData.startDate ? formData.startDate : "")}
         name={"endDate"}
+        minDate={minDate}
       />
 
       <Input

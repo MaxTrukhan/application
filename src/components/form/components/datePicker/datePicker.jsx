@@ -2,18 +2,19 @@ import React from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function Date({onChange, selectedDate, label, minDate, name}) {
+const DateComponent = ({onChange, selectedDate, label, name, minDate }) => {
+  // console.log(onChange);
   return (
     <label className="formElement">
       <span className="formLabel">{label}</span>
       <DatePicker
         onChange={onChange}
-        minDate={minDate}
         selected={selectedDate}
         name={name}
+        minDate={minDate}
       />
     </label>
   );
-}
+};
 
-export default Date
+export default DateComponent;

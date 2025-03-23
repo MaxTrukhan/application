@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 // import Main from "./pages/main";
 import Projects from "./pages/project-list/projects";

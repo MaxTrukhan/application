@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-function TextArea({ onChange, name }) {
+function TextArea({ onChange, name, value }) {
       const [error, setError] = useState('')
     const onChangeHandler = (e) => {
         if (e.target.value.length >= 1000) setError({ [name]: 'to long' }) 
@@ -11,6 +11,7 @@ function TextArea({ onChange, name }) {
         <span className="formLabel">Description</span>
         <textarea
           onChange={(e) => onChangeHandler(e)}
+          value={value}
           name={name}
           rows="10"
           cols="50"

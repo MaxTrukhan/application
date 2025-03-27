@@ -1,20 +1,23 @@
 import React, { useState, useContext } from "react";
 import { ProjectContext } from "../../context/contextProjects";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { getDateInfo } from "./helpers/dates";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import Input from "./components/input/input";
 import TextArea from "./components/textArea/textArea";
 import DateComponent from "./components/datePicker/datePicker";
-import { getDateInfo } from "./helpers/dates";
+
 import "../../pages/project-create/projectCreate.css";
 
 function Form({ formSubmit }) {
+  const navigate = useNavigate;
   const { projects } = useContext(ProjectContext);
   const param = useParams();
   const { projectId } = param;
 
-  const editingProject = projects.find((project) => project.id === projectId);
+  const editingProject = projects.find((project) => project.id === projectId) || "";
 
-  console.log(projects);
   const [formData, setFormData] = useState({
     id: "",
     name: projectId ? editingProject.name : "",
@@ -25,13 +28,6 @@ function Form({ formSubmit }) {
   });
   const [minDate, setMinDate] = useState(new Date());
 
-  // projects.reduce((acc, project) => {
-  //     if (projectId) {
-  //       const editingProject = project.id === projectId
-  //       acc = editingProject;
-  //     }
-  // }, {});
-
   const handleFormData = (e) => {
     const { name, value } = e.target;
 
@@ -41,7 +37,6 @@ function Form({ formSubmit }) {
     });
   };
 
-
   const handleDate = (name, date) => {
     const { year, month, day } = getDateInfo(date);
     setFormData({
@@ -49,6 +44,19 @@ function Form({ formSubmit }) {
       [name]: `${month + 1}/${day}/${year}`,
     });
   };
+
+  if (!editingProject) {
+    toast(
+      <>
+        If you need help with error:
+        <Link to={"/help"}>/help</Link>
+      </>
+    );
+    return <h1 style={{
+      position: "absolute",
+      left: "30%"
+    }}>Not Found 404!</h1>;
+  }
 
   return (
     <form className="form" onSubmit={formSubmit}>
@@ -61,13 +69,14 @@ function Form({ formSubmit }) {
       />
       <Input
         name={"name"}
-        value={projectId ? editingProject.name : formData.name}
+        value={formData.name}
         onChange={handleFormData}
         label={"Project Name"}
       />
       <TextArea
         onChange={(event) => handleFormData(event)}
         name={"description"}
+        value={formData.description}
       />
       <DateComponent
         onChange={(date) => {

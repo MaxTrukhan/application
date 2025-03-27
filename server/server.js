@@ -24,20 +24,31 @@ let projects = [
     id: "3",
     name: "Project C",
     startDate: "1/10/2024",
-    endDate: "1/7/2025",
+    endDate: "3/23/2025",
     description:
       "The goal of Project C is to develop a cutting-edge analytics platform that can process vast amounts of data in real-time. With the help of AI and machine learning, this project aims to provide predictive insights that will empower decision-makers and help forecast future trends with high accuracy.",
     manager: "Kety",
   },
 ];
 
-let favoriteProjects = [];
+let favoriteProjects = [
+  {
+    id: "3",
+    name: "Project C",
+    startDate: "1/10/2024",
+    endDate: "3/23/2025",
+    description:
+      "The goal of Project C is to develop a cutting-edge analytics platform that can process vast amounts of data in real-time. With the help of AI and machine learning, this project aims to provide predictive insights that will empower decision-makers and help forecast future trends with high accuracy.",
+    manager: "Kety",
+  }
+];
 
 
 app.use(cors());
 app.use(express.json());
 
 app.get("/projects", (req, res) => {
+  console.log(projects)
   res.json({
     projects: projects
   });
@@ -69,15 +80,17 @@ app.put("/projects/:id", (req, res) => {
 })
 
 
-app.get('/projects/favorite', (req, res) => {
-  if (res.status === 400) {
-    return res.status(400).json({
-      message: 'Service not valid'
-    })
-  }
+app.get("/projects/favorite", (req, res) => {
+  // if (res.status === 400) {
+  //   return res.status(400).json({
+  //     message: 'Service not valid'
+  //   })
+  // }
+  console.log(favoriteProjects, "GET");
   res.json({
     favorite: favoriteProjects,
   });
+
 })
 
 app.post("/projects/favorite", (req, res) => {
@@ -90,6 +103,7 @@ app.post("/projects/favorite", (req, res) => {
  }
    
   favoriteProjects.push(req.body);
+  console.log(favoriteProjects, "post");
   res.json(req.body);
 });
 

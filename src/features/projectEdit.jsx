@@ -4,13 +4,12 @@ import Form from "../components/form/form";
 import useEditHook from "../hooks/useEditHook";
 
 const ProjectEdit = () => {
-
   const { updateSubmit, error } = useEditHook();
-  
+
   return (
     <div>
       {error ? error : ""}
-      <Form formSubmit={updateSubmit} />
+      <Form formSubmit={updateSubmit}/>
     </div>
   );
 };
